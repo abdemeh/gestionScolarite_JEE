@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "CreerCours", value = "/creer_cours")
-public class CreerMatiere extends HttpServlet {
+public class CreerMatiere extends HttpServlet { //creermatiere
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupérer les paramètres du formulaire
         String nom = request.getParameter("nom");
