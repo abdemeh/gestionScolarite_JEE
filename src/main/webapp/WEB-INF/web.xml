@@ -7,7 +7,7 @@
 
     <servlet>
         <servlet-name>Creer_eleve</servlet-name>
-        <servlet-class>projetprototypejee.Creer_eleve</servlet-class>
+        <servlet-class>projetprototypejee.servlet.eleve.Creer_eleve</servlet-class>
     </servlet>
 
 
@@ -20,7 +20,7 @@
 
     <servlet>
         <servlet-name>Creer_enseignant</servlet-name>
-        <servlet-class>projetprototypejee.Creer_enseignant</servlet-class>
+        <servlet-class>projetprototypejee.servlet.Creer_enseignant</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -31,7 +31,7 @@
 
     <servlet>
         <servlet-name>Creer_Matiere</servlet-name>
-        <servlet-class>projetprototypejee.CreerMatiere</servlet-class>
+        <servlet-class>projetprototypejee.servlet.CreerMatiere</servlet-class>
     </servlet>
 
     <servlet-mapping>
