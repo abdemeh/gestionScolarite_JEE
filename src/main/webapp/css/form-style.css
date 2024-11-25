@@ -1,0 +1,56 @@
+/* Applique une police générale pour le site et centre le formulaire verticalement et horizontalement */
+body {
+    font-family: Arial, sans-serif; /* Police simple et lisible */
+    background-color: #f4f4f4; /* Couleur de fond gris clair */
+    display: flex; /* Centre le contenu */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: 100vh; /* Hauteur de la page à 100% de la fenêtre */
+    margin: 0; /* Supprime les marges par défaut */
+}
+
+/* Conteneur principal du formulaire */
+.form-container {
+    background: white; /* Fond blanc pour le formulaire */
+    padding: 20px; /* Espace intérieur */
+    border-radius: 5px; /* Coins arrondis */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre pour donner du relief */
+    max-width: 400px; /* Largeur maximale */
+    width: 100%; /* S'adapte à la taille de l'écran */
+}
+
+/* Style pour le titre du formulaire */
+h1 {
+    text-align: center; /* Centre le texte */
+    color: #333; /* Couleur sombre pour le texte */
+    margin-bottom: 15px; /* Espace en bas */
+}
+
+/* Style pour les étiquettes des champs */
+label {
+    font-weight: bold; /* Texte en gras */
+    margin-bottom: 5px; /* Espace sous le label */
+    display: block; /* Affiche chaque label sur une ligne distincte */
+}
+
+/* Style générique pour tous les champs de saisie */
+input {
+    width: 100%; /* Champs prennent toute la largeur disponible */
+    padding: 8px; /* Espace intérieur pour rendre les champs plus grands */
+    margin-bottom: 10px; /* Espace entre les champs */
+    border: 1px solid #ccc; /* Bordure grise simple */
+    border-radius: 3px; /* Coins légèrement arrondis */
+}
+
+/* Bouton de soumission */
+input[type="submit"] {
+    background-color: #007BFF; /* Bleu pour le bouton */
+    color: white; /* Texte en blanc */
+    border: none; /* Supprime la bordure */
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+}
+
+/* Effet lorsque l'utilisateur survole le bouton */
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Bleu plus foncé pour l'effet hover */
+}

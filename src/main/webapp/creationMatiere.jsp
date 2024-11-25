@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Créer un Cours</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/form-style.css">
 </head>
 <body>
 <h1>Créer un Cours</h1>

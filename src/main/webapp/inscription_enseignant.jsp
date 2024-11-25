@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulaire de saisie</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/form-style.css">
 </head>
 <body>
 <%
