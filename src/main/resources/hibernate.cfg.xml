@@ -2,7 +2,7 @@
     <session-factory>
         <!-- Configuration JDBC -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://[2a01:e0a:e4b:93d0:b9ae:b6ad:1a99:452c]:3306/jee_projetAB_AL_BA_GL_MO</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jee_projet</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">1234</property>
 

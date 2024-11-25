@@ -1,4 +1,4 @@
-package projetprototypejee;
+package projetprototypejee.servlet;
 
 
 import jakarta.servlet.ServletException;

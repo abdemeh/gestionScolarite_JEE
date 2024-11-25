@@ -30,19 +30,42 @@
 %>
 
 <form action="creer_enseignant" method="post">
-    Nom: <input type="text" name="nom" required /><br />
-    Prénom: <input type="text" name="prenom" required /><br />
-    Téléphone: <input type="text" name="telephone" required /><br />
-    Email: <input type="email" name="email" required /><br />
+    <label for="nom">Nom:</label>
+    <input type="text" name="nom" id="nom" required /><br />
 
-    <!-- Champs alignés sur la même ligne -->
-    <span>
-        Numéro adresse: <input type="number" name="numero_adresse" required />
-        Adresse: <input type="text" name="adresse" required />
-    </span><br />
+    <label for="prenom">Prénom:</label>
+    <input type="text" name="prenom" id="prenom" required /><br />
 
-    Code Postal: <input type="number" name="code_postal" required /><br />
-    <input type="submit" value="Soumettre" />
+    <label for="telephone">Téléphone:</label>
+    <input type="text" name="telephone" id="telephone" required /><br />
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required /><br />
+
+    <label for="mot_de_passe">Mot de Passe:</label>
+    <input type="password" name="mot_de_passe" id="mot_de_passe" required /><br />
+
+    <label for="date_naissance">Date de Naissance:</label>
+    <input type="date" name="date_naissance" id="date_naissance" required /><br />
+
+    <label for="numero_adresse">Numéro Adresse:</label>
+    <input type="number" name="numero_adresse" id="numero_adresse" required /><br />
+
+    <label for="adresse">Adresse:</label>
+    <input type="text" name="adresse" id="adresse" required /><br />
+
+    <label for="commune">Commune:</label>
+    <input type="text" name="commune" id="commune" required /><br />
+
+    <label for="code_postal">Code Postal:</label>
+    <input type="number" name="code_postal" id="code_postal" required /><br />
+    <select name="specialite" id="specialite" required>
+        <option value="Mathematique">Mathématique</option>
+        <option value="Informatique">Informatique</option>
+        <option value="Physique">Physique</option>
+        <option value="Chimie">Chimie</option>
+        <option value="Humanité">Humanité</option>
+    </select><br />
 </form>
 </body>
 </html>
