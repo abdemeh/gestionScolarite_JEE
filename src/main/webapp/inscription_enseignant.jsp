@@ -1,12 +1,9 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Formulaire de saisie</title>
+    <title>Inscription Élève</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/form-style.css">
 </head>
 <body>
@@ -16,19 +13,17 @@
     <h1>Bienvenue sur le formulaire d'inscription des professeurs</h1>
 </header>
 
-
-<%
+    <%
     // Récupération du message d'erreur
     String errorMessage = (String) request.getAttribute("errorMessage");
     if (errorMessage != null && !errorMessage.isEmpty()) {
 %>
-<div>
+<div style="color: red; font-weight: bold;">
     <%= errorMessage %>
 </div>
-<%
+    <%
     }
 %>
-
 <form action="creer_enseignant" method="post">
     <label for="nom">Nom:</label>
     <input type="text" name="nom" id="nom" required /><br />
@@ -59,6 +54,8 @@
 
     <label for="code_postal">Code Postal:</label>
     <input type="number" name="code_postal" id="code_postal" required /><br />
+
+    <label for="specialite">Spécialité:</label>
     <select name="specialite" id="specialite" required>
         <option value="Mathematique">Mathématique</option>
         <option value="Informatique">Informatique</option>
@@ -66,6 +63,6 @@
         <option value="Chimie">Chimie</option>
         <option value="Humanité">Humanité</option>
     </select><br />
+
+    <input type="submit" value="Soumettre" />
 </form>
-</body>
-</html>

@@ -20,7 +20,7 @@
 
     <servlet>
         <servlet-name>Creer_enseignant</servlet-name>
-        <servlet-class>projetprototypejee.servlet.Creer_enseignant</servlet-class>
+        <servlet-class>projetprototypejee.servlet.professeur.Creer_enseignant</servlet-class>
     </servlet>
 
     <servlet-mapping>

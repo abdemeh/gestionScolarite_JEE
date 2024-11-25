@@ -37,6 +37,8 @@ CREATE TABLE etudiants (
 -- Table des enseignants
 CREATE TABLE enseignants (
                              id_enseignant INT AUTO_INCREMENT PRIMARY KEY,
+                             date_naissance DATE NOT NULL,
+                             contact VARCHAR(15),
                              specialite VARCHAR(100),
                              id_utilisateur INT NOT NULL,
                              FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur) ON DELETE CASCADE
@@ -52,7 +54,14 @@ CREATE TABLE cours (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Table des inscriptions
-CREATE TABLE inscriptions (
+CREATE TABLE inscriptions_annee (
+                                    id_inscription INT AUTO_INCREMENT PRIMARY KEY,
+                                    id_etudiant INT NOT NULL,
+                                    date_inscription DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                    FOREIGN KEY (id_etudiant) REFERENCES etudiants(id_etudiant) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE inscriptions_cours (
                               id_inscription INT AUTO_INCREMENT PRIMARY KEY,
                               id_etudiant INT NOT NULL,
                               id_cours INT NOT NULL,

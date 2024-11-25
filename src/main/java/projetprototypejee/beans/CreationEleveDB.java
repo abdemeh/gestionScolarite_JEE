@@ -37,7 +37,7 @@ public class CreationEleveDB {
                 stmtUtilisateur.setString(3, adresse);
                 stmtUtilisateur.setString(4, email);
                 stmtUtilisateur.setString(5, mot_de_passe); // Assurez-vous de hacher le mot de passe
-                stmtUtilisateur.setInt(6, 2); // Rôle étudiant (par exemple, ID 2)
+                stmtUtilisateur.setInt(6, 3); // Rôle étudiant (par exemple, ID 2)
 
                 int rowsUtilisateur = stmtUtilisateur.executeUpdate();
                 if (rowsUtilisateur > 0) {
