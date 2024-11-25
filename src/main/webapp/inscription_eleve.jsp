@@ -59,9 +59,9 @@
     <label for="classe">Classe:</label>
     <select name="classe" id="classe" onchange="updateSpecialties()" required>
         <option value="">--Sélectionnez une classe--</option>
-        <option value="ING 1">ING 1</option>
-        <option value="ING 2">ING 2</option>
-        <option value="ING 3">ING 3</option>
+        <option value="ING1">ING 1</option>
+        <option value="ING2">ING 2</option>
+        <option value="ING3">ING 3</option>
     </select><br />
     <label for="specialite">Spécialité:</label>
     <select name="specialite" id="specialite" required>
