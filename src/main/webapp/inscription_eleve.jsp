@@ -6,12 +6,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Formulaire de saisie</title>
+    <title>Inscription Élève</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/form-style.css">
 
 
 </head>
 <body>
+
+<!-- Titre principal avec une classe spécifique -->
+<header class="page-header">
+    <h1>Bienvenue sur le formulaire d'inscription d'élève</h1>
+</header>
 <%
     // Récupération du message d'erreur
     String errorMessage = (String) request.getAttribute("errorMessage");
