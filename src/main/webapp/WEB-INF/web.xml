@@ -40,6 +40,17 @@
     </servlet-mapping>
 
 
+
+    <servlet>
+        <servlet-name>AttribuerCoursServlet</servlet-name>
+        <servlet-class>admin.attribution_cours.pourprof.AttribuerCoursServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AttribuerCoursServlet</servlet-name>
+        <url-pattern>/attribuerCours</url-pattern>
+    </servlet-mapping>
+
+
     <welcome-file-list>
         <welcome-file>inscription_eleve.jsp</welcome-file>
     </welcome-file-list>

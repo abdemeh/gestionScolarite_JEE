@@ -42,6 +42,6 @@ public class Creer_enseignant extends HttpServlet {
         request.setAttribute("specialite", specialite);
 
         // Transférer la requête et la réponse au fichier JSP pour afficher les informations
-        request.getRequestDispatcher("afficherEnseignant.jsp").forward(request, response);
+        response.sendRedirect("afficherEnseignant.jsp");
     }
 }

@@ -82,3 +82,49 @@ CREATE TABLE resultats (
 
 -- Insertion des rôles par défaut
 INSERT INTO roles (nom_role) VALUES ('Administrateur'), ('Enseignant'), ('Étudiant');
+-- Insérer des rôles par défaut
+INSERT INTO roles (nom_role) VALUES ('Administrateur'), ('Enseignant'), ('Étudiant');
+
+-- Insérer des utilisateurs
+INSERT INTO utilisateurs (nom, prenom, adresse, email, mot_de_passe, id_role)
+VALUES
+    ('Admin', 'User', '1 Rue de l\'Admin, 75001, Paris', 'admin@domain.com', 'password123', 1),
+    ('John', 'Doe', '5 Rue de l\'Enseignant, 75002, Paris', 'john.doe@domain.com', 'password123', 2),
+    ('Jane', 'Smith', '10 Rue de l\'Étudiant, 75003, Paris', 'jane.smith@domain.com', 'password123', 3);
+
+-- Insérer des étudiants
+INSERT INTO etudiants (date_naissance, contact, classe, filiere, id_utilisateur)
+VALUES
+    ('2000-05-15', '0601010203', 'ING1', 'GI', 3);
+
+-- Insérer des enseignants
+INSERT INTO enseignants (date_naissance, contact, specialite, id_utilisateur)
+VALUES
+    ('1985-09-12', '0610101010', 'Mathématiques', 2);
+
+-- Insérer des cours
+INSERT INTO cours (nom_cours, description, id_enseignant)
+VALUES
+    ('Programmation Java', 'Introduction à la programmation en Java', 1),
+    ('Bases de Données', 'Conception et manipulation des bases de données', 1);
+
+-- Insérer des inscriptions à l'année
+INSERT INTO inscriptions_annee (id_etudiant)
+VALUES
+    (1);
+
+-- Insérer des inscriptions à des cours
+INSERT INTO inscriptions_cours (id_etudiant, id_cours)
+VALUES
+    (1, 1),
+    (1, 2);
+
+-- Insérer des résultats
+INSERT INTO resultats (id_etudiant, id_cours, note)
+VALUES
+    (1, 1, 18.5),
+    (1, 2, 16.0);
+INSERT INTO resultats (id_etudiant, id_cours, note)
+VALUES
+    (1, 1, 18.5),
+    (1, 2, 16.0);
