@@ -16,7 +16,8 @@ import java.util.Map;
 @WebServlet(name = "ListeResultatsServlet", value = "/listeResultats")
 public class ListeResultatsServlet extends HttpServlet {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet?useSSL=false&serverTimezone=UTC";
+
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "1234";
 
