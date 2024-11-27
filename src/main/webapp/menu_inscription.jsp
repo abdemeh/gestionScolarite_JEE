@@ -18,7 +18,7 @@
             <a href="inscription_eleve.jsp" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Élève</a>
         </li>
         <li style="margin-bottom: 20px;">
-            <a href="inscription.jsp" style="text-decoration: none; font-size: 18px;">Se Réinscrire en tant qu'Élève</a>
+            <a href="reinscription.jsp" style="text-decoration: none; font-size: 18px;">Se Réinscrire en tant qu'Élève</a>
         </li>
         <li style="margin-bottom: 20px;">
             <a href="inscription_enseignant.jsp" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Enseignant</a>

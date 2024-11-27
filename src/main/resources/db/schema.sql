@@ -128,3 +128,8 @@ INSERT INTO resultats (id_etudiant, id_cours, note)
 VALUES
     (1, 1, 18.5),
     (1, 2, 16.0);
+
+-- Ajouter un administrateur avec un mot de passe sécurisé
+INSERT INTO utilisateurs (nom, prenom, adresse, email, mot_de_passe, id_role)
+VALUES
+    ('Super', 'Admin', '99 Avenue de l\'Admin, 75000, Paris', 'admin@jee.com', 'admin_password', 1);
