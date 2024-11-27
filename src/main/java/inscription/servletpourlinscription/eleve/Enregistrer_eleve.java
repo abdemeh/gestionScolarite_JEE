@@ -46,7 +46,7 @@ public class Enregistrer_eleve extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        response.sendRedirect("inscription_eleve.jsp");
+        response.sendRedirect("creer_eleve");
     }
 
 

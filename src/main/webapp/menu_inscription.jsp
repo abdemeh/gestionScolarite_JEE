@@ -15,7 +15,7 @@
     <h2>Que souhaitez-vous faire ?</h2>
     <ul style="list-style-type: none; padding: 0;">
         <li style="margin-bottom: 20px;">
-            <a href="inscription_eleve.jsp" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Élève</a>
+            <a href="creer_eleve" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Élève</a>
         </li>
         <li style="margin-bottom: 20px;">
             <a href="reinscription.jsp" style="text-decoration: none; font-size: 18px;">Se Réinscrire en tant qu'Élève</a>

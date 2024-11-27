@@ -1,6 +1,7 @@
 package inscription.servletpourlinscription.eleve;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,17 +9,23 @@ import inscription.ExecuteSchema;
 
 import java.io.IOException;
 
+@WebServlet(name = "Creer_eleve", urlPatterns = "/creer_eleve")
 public class Creer_eleve extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+
 
     // Configuration pour la base de données
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Charge la vue (formulaire d'inscription) sans afficher l'URL JSP
+        request.getRequestDispatcher("/inscription_eleve.jsp").forward(request, response);
+    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
 
-        // Récupération des paramètres du formulaire
         ExecuteSchema.creationBase(); // Crée la base si nécessaire
+        // Récupération des paramètres du formulaire
+
 
 
         String nom = request.getParameter("nom");
