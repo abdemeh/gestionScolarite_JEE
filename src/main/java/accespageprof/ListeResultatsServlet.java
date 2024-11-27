@@ -1,5 +1,6 @@
 package accespageprof;
 
+import admin.ExecuteSchema;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,12 +17,16 @@ import java.util.Map;
 @WebServlet(name = "ListeResultatsServlet", value = "/listeResultats")
 public class ListeResultatsServlet extends HttpServlet {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet?useSSL=false&serverTimezone=UTC";
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "1234";
 
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Redirige vers la page de connexion
+        request.getRequestDispatcher("/prof/connexion_prof.jsp").forward(request, response);
+    }
 
 
     @Override
@@ -36,7 +41,7 @@ public class ListeResultatsServlet extends HttpServlet {
 
         if (idProfesseur == null || motDePasse == null || idProfesseur.isEmpty() || motDePasse.isEmpty()) {
             request.setAttribute("message", "ID professeur et mot de passe requis.");
-            request.getRequestDispatcher("accespageprof/connexion_prof.jsp").forward(request, response);
+            request.getRequestDispatcher("prof/connexion_prof.jsp").forward(request, response);
             return;
         }
 
@@ -56,12 +61,12 @@ public class ListeResultatsServlet extends HttpServlet {
                     String storedPassword = rs.getString("mot_de_passe");
                     if (!storedPassword.equals(motDePasse)) {
                         request.setAttribute("message", "Mot de passe incorrect.");
-                        request.getRequestDispatcher("accespageprof/connexion_prof.jsp").forward(request, response);
+                        request.getRequestDispatcher("prof/connexion_prof.jsp").forward(request, response);
                         return;
                     }
                 } else {
                     request.setAttribute("message", "ID professeur introuvable.");
-                    request.getRequestDispatcher("accespageprof/connexion_prof.jsp").forward(request, response);
+                    request.getRequestDispatcher("prof/connexion_prof.jsp").forward(request, response);
                     return;
                 }
             }
@@ -100,12 +105,8 @@ public class ListeResultatsServlet extends HttpServlet {
         }
 
         request.setAttribute("resultats", resultats);
-        request.getRequestDispatcher("accespageprof/gestion_notes.jsp").forward(request, response);
+        request.getRequestDispatcher("prof/gestion_notes.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Redirige vers la méthode doPost pour gérer les requêtes de la même manière
-        doPost(request, response);
-    }
+
 }

@@ -1,6 +1,7 @@
 package admin.liste.etudiant_professeur.Dao;
 
 
+import admin.ExecuteSchema;
 import admin.liste.etudiant_professeur.modele.Etudiant;
 
 import java.sql.*;
@@ -10,9 +11,10 @@ import java.util.List;
 // DAO pour gérer les opérations liées à l'entité Etudiant
 public class EtudiantDAO {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
-    private static final String DB_USER = "root"; // Modifier si nécessaire
-    private static final String DB_PASSWORD = "1234"; // Modifier si nécessaire
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
+
 
     public List<Etudiant> getAllEtudiants() throws SQLException {
         List<Etudiant> etudiants = new ArrayList<>();
@@ -49,15 +51,26 @@ public class EtudiantDAO {
     }
 
     public void supprimerEtudiant(int idEtudiant) throws SQLException {
-        String sql = "DELETE FROM etudiants WHERE id_etudiant = ?";
+        String sqlDeleteEtudiant = "DELETE FROM etudiants WHERE id_etudiant = ?";
+        String sqlDeleteUtilisateur = "DELETE FROM utilisateurs " +
+                "WHERE id_utilisateur = (SELECT id_utilisateur " +
+                "FROM etudiants WHERE id_etudiant = ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmtDeleteEtudiant = conn.prepareStatement(sqlDeleteEtudiant);
+             PreparedStatement stmtDeleteUtilisateur = conn.prepareStatement(sqlDeleteUtilisateur)) {
 
-            stmt.setInt(1, idEtudiant);
-            stmt.executeUpdate();
+            // Supprimer l'utilisateur associé
+            stmtDeleteUtilisateur.setInt(1, idEtudiant);
+            stmtDeleteUtilisateur.executeUpdate();
+
+            // Supprimer l'étudiant
+            stmtDeleteEtudiant.setInt(1, idEtudiant);
+            stmtDeleteEtudiant.executeUpdate();
         }
     }
+
+
 
 
 

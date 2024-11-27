@@ -37,6 +37,8 @@ public class Enregistrer_enseignant extends HttpServlet {
             throw new RuntimeException(e);
         }
 
+        response.sendRedirect("creer_enseignant");
+
 
     }
 

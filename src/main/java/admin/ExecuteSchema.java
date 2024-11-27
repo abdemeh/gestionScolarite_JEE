@@ -13,9 +13,9 @@ import java.sql.Statement;
 public class ExecuteSchema {
 
     // Configuration de la base de données
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306";
-    private static final String USERNAME = "root"; // à personnaliser
-    private static final String PASSWORD = "1234"; // à personnaliser
+    private static final String DB_URL = "jdbc:mysql://localhost:3306";
+    private static final String DB_USER = "root"; // à personnaliser
+    private static final String DB_PASSWORD = "1234"; // à personnaliser
     private static final String SCHEMA_FILE = "/db/schema.sql"; // Chemin relatif dans le classpath
 
     /**
@@ -27,7 +27,7 @@ public class ExecuteSchema {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Connexion à la base de données
-            try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                  Statement statement = connection.createStatement();
                  InputStream inputStream = ExecuteSchema.class.getResourceAsStream(SCHEMA_FILE);
                  BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
@@ -71,4 +71,28 @@ public class ExecuteSchema {
             throw new RuntimeException(e);
         }
     }
+
+
+    /**
+     * Getter pour l'URL de la base de données.
+     */
+    public static String getDbUrl() {
+        return DB_URL;
+    }
+
+    /**
+     * Getter pour l'utilisateur de la base de données.
+     */
+    public static String getDbUser() {
+        return DB_USER;
+    }
+
+    /**
+     * Getter pour le mot de passe de la base de données.
+     */
+    public static String getDbPassword() {
+        return DB_PASSWORD;
+    }
+
+
 }

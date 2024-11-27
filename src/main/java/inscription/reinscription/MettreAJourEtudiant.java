@@ -1,5 +1,6 @@
 package inscription.reinscription;
 
+import admin.ExecuteSchema;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,10 +17,15 @@ import java.sql.SQLException;
 public class MettreAJourEtudiant extends HttpServlet {
 
     // Configuration de la base de données
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
-    private static final String DB_USER = "root"; // Modifier si nécessaire
-    private static final String DB_PASSWORD = "1234"; // Modifier si nécessaire
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Charge la vue (formulaire d'inscription) sans afficher l'URL JSP
+        request.getRequestDispatcher("/reinscription.jsp").forward(request, response);
+    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des paramètres

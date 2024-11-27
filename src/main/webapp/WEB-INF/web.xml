@@ -52,7 +52,7 @@
 
 
     <welcome-file-list>
-        <welcome-file>inscription_eleve.jsp</welcome-file>
+        <welcome-file>menu_inscription.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
 

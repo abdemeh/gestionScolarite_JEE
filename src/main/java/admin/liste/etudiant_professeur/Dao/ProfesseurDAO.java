@@ -1,5 +1,6 @@
 package admin.liste.etudiant_professeur.Dao;
 
+import admin.ExecuteSchema;
 import admin.liste.etudiant_professeur.modele.Professeur;
 
 import java.sql.*;
@@ -8,9 +9,10 @@ import java.util.List;
 
 public class ProfesseurDAO {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "1234";
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
+
 
     public List<Professeur> getAllProfesseurs() throws SQLException {
         List<Professeur> professeurs = new ArrayList<>();
@@ -40,15 +42,53 @@ public class ProfesseurDAO {
 
     // Méthode pour supprimer un professeur
     public boolean supprimerProfesseur(int idProfesseur) throws SQLException {
-        String sql = "DELETE FROM enseignants WHERE id_enseignant = ?";
+        // Requête pour récupérer l'id_utilisateur du professeur
+        String sqlSelectUtilisateur = "SELECT id_utilisateur FROM enseignants WHERE id_enseignant = ?";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        // Requête pour supprimer le professeur
+        String sqlDeleteProfesseur = "DELETE FROM enseignants WHERE id_enseignant = ?";
 
-            stmt.setInt(1, idProfesseur);
-            int rowsAffected = stmt.executeUpdate();
+        // Requête pour supprimer l'utilisateur associé
+        String sqlDeleteUtilisateur = "DELETE FROM utilisateurs WHERE id_utilisateur = ?";
 
-            return rowsAffected > 0; // Renvoie true si la suppression a réussi
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            // Démarrage de la transaction
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stmtSelect = conn.prepareStatement(sqlSelectUtilisateur);
+                 PreparedStatement stmtDeleteProfesseur = conn.prepareStatement(sqlDeleteProfesseur);
+                 PreparedStatement stmtDeleteUtilisateur = conn.prepareStatement(sqlDeleteUtilisateur)) {
+
+                // Étape 1 : Récupérer l'id_utilisateur associé
+                stmtSelect.setInt(1, idProfesseur);
+                ResultSet rs = stmtSelect.executeQuery();
+
+                if (rs.next()) {
+                    int idUtilisateur = rs.getInt("id_utilisateur");
+
+                    // Étape 2 : Supprimer le professeur
+                    stmtDeleteProfesseur.setInt(1, idProfesseur);
+                    stmtDeleteProfesseur.executeUpdate();
+
+                    // Étape 3 : Supprimer l'utilisateur associé
+                    stmtDeleteUtilisateur.setInt(1, idUtilisateur);
+                    stmtDeleteUtilisateur.executeUpdate();
+
+                    // Validation de la transaction
+                    conn.commit();
+                    return true; // Suppression réussie
+                } else {
+                    // Pas de professeur trouvé
+                    conn.rollback();
+                    return false;
+                }
+            } catch (SQLException e) {
+                conn.rollback(); // Annulation de la transaction en cas d'erreur
+                throw e;
+            } finally {
+                conn.setAutoCommit(true); // Réinitialiser le mode auto-commit
+            }
         }
     }
+
 }

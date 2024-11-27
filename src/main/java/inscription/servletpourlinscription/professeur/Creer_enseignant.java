@@ -10,6 +10,13 @@ import java.io.IOException;
 
 @WebServlet(name = "Creer_enseignant", value = "/creer_enseignant")
 public class Creer_enseignant extends HttpServlet {
+
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Charge la vue (formulaire d'inscription) sans afficher l'URL JSP
+        request.getRequestDispatcher("/inscription_enseignant.jsp").forward(request, response);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des paramètres du formulaire
@@ -25,8 +32,6 @@ public class Creer_enseignant extends HttpServlet {
         String codePostal = request.getParameter("code_postal");
         String specialite = request.getParameter("specialite");
 
-        // Construire l'adresse complète
-        String adresseComplete = numeroAdresse + " " + adresse + ", " + codePostal + ", " + commune;
 
         // Ajouter les informations comme attributs de la requête
         request.setAttribute("nom", nom);
@@ -42,6 +47,6 @@ public class Creer_enseignant extends HttpServlet {
         request.setAttribute("specialite", specialite);
 
         // Transférer la requête et la réponse au fichier JSP pour afficher les informations
-        response.sendRedirect("afficherEnseignant.jsp");
+        request.getRequestDispatcher("afficherEnseignant.jsp").forward(request, response);
     }
 }

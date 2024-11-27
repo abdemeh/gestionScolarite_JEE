@@ -8,7 +8,7 @@
 </head>
 <body>
 <header class="page-header">
-    <h1>Formulaire de Mise à Jour des Informations Étudiant</h1>
+    <h1>Formulaire de Réinscription des Étudiants</h1>
 </header>
 
 <%

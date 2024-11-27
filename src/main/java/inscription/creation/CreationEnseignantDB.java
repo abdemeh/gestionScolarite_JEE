@@ -1,18 +1,18 @@
 package inscription.creation;
 
+import admin.ExecuteSchema;
+
 import java.sql.*;
 
 public class CreationEnseignantDB {
 
     // Configuration de la base de données
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
-    private static final String DB_USER = "root"; // Modifier si nécessaire
-    private static final String DB_PASSWORD = "1234"; // Modifier si nécessaire
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
 
     // Méthode pour établir une connexion à la base de données
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        return DriverManager.getConnection(DB_URL, ExecuteSchema.getDbUser(), ExecuteSchema.getDbPassword());
     }
 
     // Méthode pour ajouter un enseignant dans la base de données

@@ -14,6 +14,7 @@
 <div class="menu-container" style="text-align: center; margin-top: 50px;">
     <h2>Que souhaitez-vous faire ?</h2>
     <ul style="list-style-type: none; padding: 0;">
+        <!-- Inscription des élèves -->
         <li style="margin-bottom: 20px;">
             <a href="creer_eleve" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Élève</a>
         </li>
@@ -21,7 +22,15 @@
             <a href="reinscription.jsp" style="text-decoration: none; font-size: 18px;">Se Réinscrire en tant qu'Élève</a>
         </li>
         <li style="margin-bottom: 20px;">
-            <a href="inscription_enseignant.jsp" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Enseignant</a>
+            <a href="creer_enseignant" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Enseignant</a>
+        </li>
+        <!-- Connexion Professeur -->
+        <li style="margin-bottom: 20px;">
+            <a href="listeResultats" style="text-decoration: none; font-size: 18px;">Se Connecter en tant que Professeur</a>
+        </li>
+        <!-- Connexion Administrateur -->
+        <li style="margin-bottom: 20px;">
+            <a href="connexionAdmin" style="text-decoration: none; font-size: 18px;">Se Connecter en tant qu'Administrateur</a>
         </li>
     </ul>
 </div>

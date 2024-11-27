@@ -1,5 +1,6 @@
 package admin.attribution_cours.poureleve;
 
+import admin.ExecuteSchema;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,9 +17,10 @@ import java.util.Map;
 @WebServlet(name = "ListeInscriptionsServlet", value = "/listeInscriptions")
 public class ListeInscriptionsServlet extends HttpServlet {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "1234";
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,5 +1,6 @@
 package admin.attribution_cours.poureleve;
 
+import admin.ExecuteSchema;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,9 +18,10 @@ import static admin.attribution_cours.poureleve.Pourelevestat.*;
 @WebServlet(name = "InscrireCoursServlet", value = "/inscrireCours")
 public class InscrireCoursServlet extends HttpServlet {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "1234";
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,7 +36,10 @@ public class InscrireCoursServlet extends HttpServlet {
         }
 
         String sqlInsertInscriptions = "INSERT INTO inscriptions_cours (id_etudiant, id_cours, date_inscription) VALUES (?, ?, ?)";
-        String sqlInsertResultats = "INSERT INTO resultats (id_etudiant, id_cours, note) VALUES (?, ?, 0)";
+        String sqlInsertResultats = "INSERT INTO resultats (id_etudiant, id_cours, note) " +
+                "VALUES (?, ?, 0) " +
+                "ON DUPLICATE KEY UPDATE note = VALUES(note)";
+
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             try (PreparedStatement stmtInscriptions = conn.prepareStatement(sqlInsertInscriptions);
