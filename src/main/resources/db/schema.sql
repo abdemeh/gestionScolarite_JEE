@@ -70,7 +70,6 @@ CREATE TABLE inscriptions_cours (
                               FOREIGN KEY (id_cours) REFERENCES cours(id_cours) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Table des résultats
 CREATE TABLE resultats (
                            id_resultat INT AUTO_INCREMENT PRIMARY KEY,
                            id_etudiant INT NOT NULL,
@@ -79,6 +78,20 @@ CREATE TABLE resultats (
                            FOREIGN KEY (id_etudiant) REFERENCES etudiants(id_etudiant) ON DELETE CASCADE,
                            FOREIGN KEY (id_cours) REFERENCES cours(id_cours) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DELETE r1
+FROM resultats r1
+         JOIN resultats r2
+              ON r1.id_etudiant = r2.id_etudiant
+                  AND r1.id_cours = r2.id_cours
+                  AND r1.id_resultat > r2.id_resultat;
+
+-- Table des résultats
+ALTER TABLE resultats
+    ADD UNIQUE KEY unique_etudiant_cours (id_etudiant, id_cours);
+
+
 
 -- Insertion des rôles par défaut
 INSERT INTO roles (nom_role) VALUES ('Administrateur'), ('Enseignant'), ('Étudiant');
@@ -119,15 +132,14 @@ VALUES
     (1, 1),
     (1, 2);
 
--- Insérer des résultats
 INSERT INTO resultats (id_etudiant, id_cours, note)
 VALUES
     (1, 1, 18.5),
-    (1, 2, 16.0);
-INSERT INTO resultats (id_etudiant, id_cours, note)
-VALUES
-    (1, 1, 18.5),
-    (1, 2, 16.0);
+    (1, 2, 16.0)
+ON DUPLICATE KEY UPDATE
+    note = VALUES(note);
+
+
 
 -- Ajouter un administrateur avec un mot de passe sécurisé
 INSERT INTO utilisateurs (nom, prenom, adresse, email, mot_de_passe, id_role)

@@ -36,9 +36,9 @@ public class InscrireCoursServlet extends HttpServlet {
         }
 
         String sqlInsertInscriptions = "INSERT INTO inscriptions_cours (id_etudiant, id_cours, date_inscription) VALUES (?, ?, ?)";
-        String sqlInsertResultats = "INSERT INTO resultats (id_etudiant, id_cours, note) " +
-                "VALUES (?, ?, 0) " +
-                "ON DUPLICATE KEY UPDATE note = VALUES(note)";
+        String sqlInsertResultats = "INSERT IGNORE INTO resultats (id_etudiant, id_cours, note) " +
+                "VALUES (?, ?, 0)";
+
 
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
