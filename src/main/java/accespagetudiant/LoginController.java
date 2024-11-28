@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.*;
@@ -56,15 +55,30 @@ public class LoginController extends HttpServlet {
                     rs = stmt.executeQuery();
 
                     List<Note> notes = new ArrayList<>();
+                    List<Horaire_cours> datecours=new ArrayList<>();
 
                     while (rs.next()) {
                         String coursNom = rs.getString("nom_cours");
                         int note = rs.getInt("note");
                         notes.add(new Note(coursNom, note));
                     }
+                    sql = "SELECT c.nom_cours, i.date_inscription " +
+                            "FROM cours c " +
+                            "JOIN inscriptions_cours i ON c.id_cours = i.id_cours " +
+                            "WHERE i.id_etudiant = ?";
+                    stmt = conn.prepareStatement(sql);
+                    stmt.setString(1, idEtudiant);
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        String coursNom = rs.getString("nom_cours");
+                        Timestamp enrollmentDate= Timestamp.valueOf(rs.getString("date_inscription"));
+                        datecours.add(new Horaire_cours(coursNom, enrollmentDate));
+                    }
+
 
                     // Passer la liste des notes à la page JSP
                     request.setAttribute("notes", notes);
+                    request.setAttribute("date_cours",datecours);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("etudiant/notes.jsp");
                     dispatcher.forward(request, response);
                 } else {

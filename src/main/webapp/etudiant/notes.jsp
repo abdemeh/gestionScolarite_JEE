@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="accespagetudiant.Note" %>
+<%@ page import="accespagetudiant.Horaire_cours" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"%>
 
 <!DOCTYPE html>
@@ -29,6 +30,29 @@
     <tr>
         <td><%= note.getCoursNom() %></td>
         <td><%= note.getNote() %></td>
+    </tr>
+    <%
+            }
+        }
+    %>
+</table>
+<table border="1">
+    <tr>
+        <th>Nom du Cours</th>
+        <th>Date</th>
+    </tr>
+    <%
+        // Récupérer la liste des notes passée par la servlet
+        List<Horaire_cours> date_cours = (List<Horaire_cours>) request.getAttribute("date_cours");
+
+        // Vérifier si la liste n'est pas vide
+        if (date_cours != null) {
+            // Parcourir la liste des notes et afficher chaque ligne dans le tableau
+            for (Horaire_cours horaire_cours : date_cours) {
+    %>
+    <tr>
+        <td><%= horaire_cours.getCoursNom() %></td>
+        <td><%= horaire_cours.getDate() %></td>
     </tr>
     <%
             }
