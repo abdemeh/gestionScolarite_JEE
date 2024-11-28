@@ -11,13 +11,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet(name = "MettreAJourEtudiant", value = "/mettreAJourEtudiant")
 public class MettreAJourEtudiant extends HttpServlet {
 
     // Configuration de la base de données
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_URL = ExecuteSchema.getDbUrl() + "/jee_projet";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 
@@ -26,6 +27,7 @@ public class MettreAJourEtudiant extends HttpServlet {
         // Charge la vue (formulaire d'inscription) sans afficher l'URL JSP
         request.getRequestDispatcher("/reinscription.jsp").forward(request, response);
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des paramètres
@@ -59,6 +61,9 @@ public class MettreAJourEtudiant extends HttpServlet {
         // Construction de l'adresse complète
         String adresseComplete = numeroAdresse + " " + adresse + ", " + codePostal + ", " + commune;
 
+        // Requête SQL pour vérifier si l'étudiant est déjà inscrit
+        String sqlCheckInscription = "SELECT COUNT(*) FROM inscriptions_annee WHERE id_etudiant = ?";
+
         // Requête SQL pour mettre à jour les informations de l'étudiant
         String sqlUpdate = "UPDATE etudiants e " +
                 "JOIN utilisateurs u ON e.id_utilisateur = u.id_utilisateur " +
@@ -69,6 +74,19 @@ public class MettreAJourEtudiant extends HttpServlet {
         String sqlInsertInscription = "INSERT INTO inscriptions_annee (id_etudiant) VALUES (?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            // Vérifier si l'étudiant est déjà inscrit
+            try (PreparedStatement stmtCheck = conn.prepareStatement(sqlCheckInscription)) {
+                stmtCheck.setInt(1, Integer.parseInt(idEtudiant));
+                ResultSet rsCheck = stmtCheck.executeQuery();
+
+                if (rsCheck.next() && rsCheck.getInt(1) > 0) {
+                    // Si l'étudiant est déjà inscrit, afficher un message d'erreur
+                    request.setAttribute("message", "Cet étudiant est déjà inscrit pour cette année.");
+                    request.getRequestDispatcher("reinscription.jsp").forward(request, response);
+                    return;
+                }
+            }
+
             conn.setAutoCommit(false); // Démarrer une transaction
 
             // Mise à jour des informations de l'étudiant
@@ -94,8 +112,6 @@ public class MettreAJourEtudiant extends HttpServlet {
                 } else {
                     conn.rollback(); // Annuler si aucune mise à jour
                     request.setAttribute("message", "Identifiant étudiant introuvable. Veuillez vérifier les informations.");
-                    request.getRequestDispatcher("inscription_eleve.jsp").forward(request, response);
-                    return;
                 }
             }
         } catch (SQLException e) {

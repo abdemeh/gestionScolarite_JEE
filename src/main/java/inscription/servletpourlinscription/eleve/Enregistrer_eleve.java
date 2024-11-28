@@ -39,7 +39,12 @@ public class Enregistrer_eleve extends HttpServlet {
 
 
         try {
-            ajouterEleve(nom, prenom, telephone, email,mot_de_passe,adresse,dateNaissance,classe,specialite);
+            String message=ajouterEleve(nom, prenom, telephone, email,mot_de_passe,adresse,dateNaissance,classe,specialite);
+            if(message=="Erreur : L'email est déjà utilisé."){
+                request.setAttribute("errorMessage",message);
+                request.getRequestDispatcher("inscription_eleve.jsp").forward(request, response);
+
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

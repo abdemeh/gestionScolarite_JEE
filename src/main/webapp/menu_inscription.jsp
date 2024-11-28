@@ -19,7 +19,7 @@
             <a href="creer_eleve" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Élève</a>
         </li>
         <li style="margin-bottom: 20px;">
-            <a href="reinscription.jsp" style="text-decoration: none; font-size: 18px;">Se Réinscrire en tant qu'Élève</a>
+            <a href="mettreAJourEtudiant" style="text-decoration: none; font-size: 18px;">Se Réinscrire en tant qu'Élève</a>
         </li>
         <li style="margin-bottom: 20px;">
             <a href="creer_enseignant" style="text-decoration: none; font-size: 18px;">S'inscrire en tant qu'Enseignant</a>

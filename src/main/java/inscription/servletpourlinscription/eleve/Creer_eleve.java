@@ -23,11 +23,6 @@ public class Creer_eleve extends HttpServlet {
 
 
 
-        ExecuteSchema.creationBase(); // Crée la base si nécessaire
-        // Récupération des paramètres du formulaire
-
-
-
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String telephone = request.getParameter("telephone");

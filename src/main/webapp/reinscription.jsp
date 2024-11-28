@@ -58,7 +58,10 @@
         <option value="GM">GM</option>
         <option value="GC">GC</option>
     </select><br />
-    <input type="submit" value="Mettre à Jour" />
+    <li style="margin-bottom: 20px;">
+        <a href="creer_eleve" style="text-decoration: none; font-size: 18px;">S'inscrire</a>
+    </li>
+    <input type="submit" value="Reinscrire" />
 </form>
 </body>
 </html>
