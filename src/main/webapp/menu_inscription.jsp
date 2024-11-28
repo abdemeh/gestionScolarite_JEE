@@ -28,6 +28,10 @@
         <li style="margin-bottom: 20px;">
             <a href="listeResultats" style="text-decoration: none; font-size: 18px;">Se Connecter en tant que Professeur</a>
         </li>
+        <!-- Connexion Etudiant -->
+        <li style="margin-bottom: 20px;">
+            <a href="loginController" style="text-decoration: none; font-size: 18px;">Se Connecter en tant que eleve</a>
+        </li>
         <!-- Connexion Administrateur -->
         <li style="margin-bottom: 20px;">
             <a href="connexionAdmin" style="text-decoration: none; font-size: 18px;">Se Connecter en tant qu'Administrateur</a>

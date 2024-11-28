@@ -8,15 +8,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import servletexecutionbdd.SchemaInitializer;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @WebServlet(name = "LoginController", value = "/loginController")
 public class LoginController extends HttpServlet {
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,11 +33,13 @@ public class LoginController extends HttpServlet {
         String motDePasseSaisi = request.getParameter("mot_de_passe");
 
         // Connexion à la base de données pour vérifier les identifiants
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jee_projet", ExecuteSchema.getDbUser(), ExecuteSchema.getDbPassword());
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
 
             // Récupérer le mot de passe de l'étudiant depuis la table utilisateur
-            String sql = "SELECT mot_de_passe FROM utilisateur WHERE id_utilisateur = (SELECT id_utilisateur FROM etudiants WHERE id_etudiant = ?)";
+            String sql = "SELECT mot_de_passe " +
+                    "FROM utilisateurs " +
+                    "JOIN etudiants ON utilisateurs.id_utilisateur = etudiants.id_utilisateur " +
+                    "WHERE etudiants.id_etudiant = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, idEtudiant);
             ResultSet rs = stmt.executeQuery();
@@ -44,7 +50,7 @@ public class LoginController extends HttpServlet {
                 // Comparer le mot de passe saisi avec celui stocké
                 if (motDePasseStocke.equals(motDePasseSaisi)) {
                     // L'étudiant est authentifié, récupérer ses notes
-                    sql = "SELECT c.nom_cours, r.note FROM resultat r JOIN cours c ON r.id_cours = c.id_cours WHERE r.id_etudiant = ?";
+                    sql = "SELECT c.nom_cours, r.note FROM resultats r JOIN cours c ON r.id_cours = c.id_cours WHERE r.id_etudiant = ?";
                     stmt = conn.prepareStatement(sql);
                     stmt.setString(1, idEtudiant);
                     rs = stmt.executeQuery();
@@ -62,16 +68,19 @@ public class LoginController extends HttpServlet {
                     RequestDispatcher dispatcher = request.getRequestDispatcher("etudiant/notes.jsp");
                     dispatcher.forward(request, response);
                 } else {
-                    // Si les mots de passe ne correspondent pas
-                    response.sendRedirect("etudiant/login.jsp?error=true");
+                    // Si les mots de passe ne correspondent pas, afficher un message d'erreur
+                    request.setAttribute("error", "Mot de passe incorrect.");
+                    request.getRequestDispatcher("etudiant/login.jsp").forward(request, response);
                 }
             } else {
                 // Si l'étudiant n'existe pas dans la base de données
-                response.sendRedirect("etudiant/login.jsp?error=true");
+                request.setAttribute("error", "Identifiant étudiant incorrect.");
+                request.getRequestDispatcher("etudiant/login.jsp").forward(request, response);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("etudiant/login.jsp?error=true");
+            request.setAttribute("error", "Erreur lors de la connexion à la base de données.");
+            request.getRequestDispatcher("etudiant/login.jsp").forward(request, response);
         }
     }
 }
