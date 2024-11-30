@@ -18,7 +18,7 @@ import java.util.Map;
 @WebServlet(name = "ListeResultatsServlet", value = "/listeResultats")
 public class ListeResultatsServlet extends HttpServlet {
 
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_project";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 

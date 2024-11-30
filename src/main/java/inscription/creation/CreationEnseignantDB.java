@@ -7,7 +7,7 @@ import java.sql.*;
 public class CreationEnseignantDB {
 
     // Configuration de la base de données
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_project";
 
     // Méthode pour établir une connexion à la base de données
     private static Connection getConnection() throws SQLException, ClassNotFoundException {

@@ -42,6 +42,9 @@ public class Enregistrer_eleve extends HttpServlet {
                 request.setAttribute("errorMessage",message);
                 request.getRequestDispatcher("inscription_eleve.jsp").forward(request, response);
 
+            }else{
+                request.setAttribute("errorMessage","Votre compte à été crée!");
+                request.getRequestDispatcher("inscription_eleve.jsp").forward(request, response);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -49,7 +52,7 @@ public class Enregistrer_eleve extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        response.sendRedirect("creer_eleve");
+        //response.sendRedirect("creer_eleve");
     }
 
 

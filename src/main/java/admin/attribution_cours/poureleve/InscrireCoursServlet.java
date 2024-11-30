@@ -18,7 +18,7 @@ import static admin.attribution_cours.poureleve.Pourelevestat.*;
 @WebServlet(name = "InscrireCoursServlet", value = "/inscrireCours")
 public class InscrireCoursServlet extends HttpServlet {
 
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_project";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 

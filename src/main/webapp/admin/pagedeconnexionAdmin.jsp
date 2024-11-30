@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Connexion Administrateur</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.scss">
 </head>
 <body>
 <header>
