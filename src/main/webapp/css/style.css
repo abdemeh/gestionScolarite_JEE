@@ -194,7 +194,8 @@ main p{
     border: 1px solid var(--line-clr);
     border-radius: 1em;
     margin-bottom: 20px;
-    padding: min(3em, 15%);
+    padding: min(2em, 15%);
+    margin-top: 50px;
 
     h2, p { margin-top: 1em }
 }
@@ -233,7 +234,35 @@ main p{
     text-align: center;
     margin-top: 20px;
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1rem;
+    background-color: var(--base-clr);
+    color: var(--text-clr);
+}
 
+table th, table td {
+    text-align: left;
+    padding: 12px 15px;
+    border: 1px solid var(--line-clr);
+}
+
+table th {
+    background-color: var(--hover-clr);
+    color: var(--text-clr);
+    font-weight: 600;
+}
+
+table tr:nth-child(even) {
+    background-color: var(--hover-clr);
+}
+
+table tr:hover {
+    background-color: var(--accent-clr);
+    color: white;
+}
 .error-message {
     background-color: #f8d7da; /* Light red background for error messages */
     color: #842029; /* Dark red text for contrast */
