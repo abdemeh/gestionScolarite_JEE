@@ -1,6 +1,8 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
 <%@ page import="admin.attribution_cours.pourprof.Pourprofstat" %>
+<%@ page import="modele.Cours" %>
+<%@ page import="modele.Enseignant" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -31,15 +33,15 @@
             <tbody>
             <%
                 // Récupérer la liste des cours depuis la requête
-                List<Map<String, String>> cours = (List<Map<String, String>>) request.getAttribute("cours");
+                List<Cours> cours= (List<Cours>) request.getAttribute("cours");
                 if (cours != null && !cours.isEmpty()) {
-                    for (Map<String, String> c : cours) {
+                    for( Cours c : cours) {
             %>
             <tr>
-                <td><%= c.get("id_cours") %></td>
-                <td><%= c.get("nom_cours") %></td>
-                <td><%= c.get("description") %></td>
-                <td><%= c.get("id_enseignant") != null ? c.get("id_enseignant") : "Non attribué" %></td>
+                <td><%= c.getIdCours()%></td>
+                <td><%= c.getNomCours() %></td>
+                <td><%= c.getDescription() %></td>
+                <td><%= c.getEnseignant().getUtilisateur().getNom()%>  <%=c.getEnseignant().getUtilisateur().getPrenom()%></td>
             </tr>
             <%
                 }
@@ -63,17 +65,20 @@
             <input type="text" name="search" id="search" placeholder="Nom ou Prénom du Professeur" required />
             <button type="submit">Rechercher</button>
         </form>
+        <%List<Enseignant> professeur= (List<Enseignant>) request.getAttribute("professeurs");%>
 
         <!-- Affichage des résultats de recherche -->
         <%
-            if (Pourprofstat.prof != null) {
+            if (professeur!= null) {
+                for(Enseignant prof:professeur){
         %>
         <div style="margin-top: 20px;">
-            <p><strong>ID Professeur :</strong> <%= Pourprofstat.prof.get("id_enseignant") %></p>
-            <p><strong>Nom :</strong> <%= Pourprofstat.prof.get("nom") %></p>
-            <p><strong>Prénom :</strong> <%= Pourprofstat.prof.get("prenom") %></p>
+            <p><strong>ID Professeur :</strong> <%=prof.getIdEnseignant()  %></p>
+            <p><strong>Nom :</strong> <%= prof.getUtilisateur().getNom()%></p>
+            <p><strong>Prénom :</strong> <%= prof.getUtilisateur().getPrenom() %></p>
         </div>
-        <% } else if (request.getParameter("search") != null) { %>
+        <%}
+            } else if (request.getParameter("search") != null) { %>
         <div style="margin-top: 20px; color: red;">Aucun professeur trouvé.</div>
         <% } %>
 

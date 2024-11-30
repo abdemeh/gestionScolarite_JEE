@@ -1,6 +1,11 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
 <%@ page import="admin.attribution_cours.poureleve.Pourelevestat" %>
+<%@ page import="modele.InscriptionAnnee" %>
+<%@ page import="dao.CoursDAO" %>
+<%@ page import="modele.InscriptionCours" %>
+<%@ page import="modele.Cours" %>
+<%@ page import="modele.Etudiant" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -27,22 +32,24 @@
                 <th>Filière</th>
                 <th>Nom du Cours</th>
                 <th>Professeur</th>
-                <th>Date d'Inscription</th>
+                <th>Période</th>
             </tr>
             </thead>
             <tbody>
             <%
-                List<Map<String, String>> inscriptions = (List<Map<String, String>>) request.getAttribute("inscriptions");
+                List<InscriptionCours> inscriptions = (List<InscriptionCours>) request.getAttribute("inscriptions");
                 if (inscriptions != null && !inscriptions.isEmpty()) {
-                    for (Map<String, String> inscription : inscriptions) {
+                    for (InscriptionCours inscription : inscriptions) {
             %>
             <tr>
-                <td><%= inscription.get("id_etudiant") %></td>
-                <td><%= inscription.get("classe") %></td>
-                <td><%= inscription.get("filiere") %></td>
-                <td><%= inscription.get("nom_cours") %></td>
-                <td><%= inscription.get("nom_professeur") %></td>
-                <td><%= inscription.get("date_inscription") %></td>
+                <td><%= inscription.getEtudiant().getIdEtudiant() %></td>
+                <td><%= inscription.getEtudiant().getClasse() %></td>
+                <td><%= inscription.getEtudiant().getFiliere() %></td>
+                <td><%= inscription.getCours().getNomCours() %></td>
+                <td><%= inscription.getCours().getEnseignant().getUtilisateur().getPrenom() %>
+                    <%= inscription.getCours().getEnseignant().getUtilisateur().getNom() %>
+                </td>
+                <td><%= inscription.getDebutCours() %> - <%= inscription.getFinCours() %></td>
             </tr>
             <%
                 }
@@ -67,15 +74,15 @@
             <button type="submit">Rechercher</button>
         </form>
         <%
-            Map<String, String> etudiant = Pourelevestat.etudiant;
+            Etudiant etudiant = Pourelevestat.etudiantparticulier;
             if (etudiant != null) {
         %>
         <div style="margin-top: 20px;">
-            <p><strong>ID Étudiant :</strong> <%= etudiant.get("id_etudiant") %></p>
-            <p><strong>Nom :</strong> <%= etudiant.get("nom") %></p>
-            <p><strong>Prénom :</strong> <%= etudiant.get("prenom") %></p>
-            <p><strong>Classe :</strong> <%= etudiant.get("classe") %></p>
-            <p><strong>Filière :</strong> <%= etudiant.get("filiere") %></p>
+            <p><strong>ID Étudiant :</strong> <%= etudiant.getIdEtudiant() %></p>
+            <p><strong>Nom :</strong> <%= etudiant.getUtilisateur().getNom() %></p>
+            <p><strong>Prénom :</strong> <%= etudiant.getUtilisateur().getPrenom() %></p>
+            <p><strong>Classe :</strong> <%= etudiant.getClasse() %></p>
+            <p><strong>Filière :</strong> <%= etudiant.getFiliere() %></p>
         </div>
         <% } else if (request.getParameter("searchEtudiant") != null) { %>
         <div style="margin-top: 20px; color: red;">Aucun étudiant trouvé.</div>
@@ -89,41 +96,60 @@
         </form>
 
         <%
-            List<Map<String, String>> listeProfesseursCours = Pourelevestat.ListeProfesseurpourcecours;
-            if (listeProfesseursCours != null && !listeProfesseursCours.isEmpty()) {
+            List<Cours> cours = (List<Cours>) request.getAttribute("cours");
+            if (cours != null && !cours.isEmpty()) {
         %>
         <form action="inscrireCours" method="post" style="margin-top: 20px;">
             <label for="selectCours">Sélectionner un cours :</label>
             <select name="id_cours" id="selectCours" required>
                 <%
-                    for (Map<String, String> profCours : listeProfesseursCours) {
+                    for (Cours lecours : cours) {
                 %>
-                <option value="<%= profCours.get("id_cours") %>">
-                    Cours: <%= profCours.get("nom_cours") %> | Professeur: <%= profCours.get("nom_professeur") %>
+                <option value="<%= lecours.getIdCours() %>">
+                    <%= lecours.getNomCours() %> | Professeur : <%= lecours.getEnseignant().getUtilisateur().getNom() %>
                 </option>
                 <%
                     }
                 %>
             </select><br />
 
-            <!-- Champ pour la date -->
-            <label for="date_inscription">Date du cours :</label>
-            <input type="datetime-local" name="date_inscription" id="date_inscription" required /><br />
+            <!-- Sélection de la date -->
+            <label for="dateCours">Date du cours :</label>
+            <input type="date" name="dateCours" id="dateCours" required /><br />
 
-            <!-- Bouton pour soumettre le formulaire -->
-            <button type="submit" style="margin-top: 10px;">Enregistrer</button>
-            <% if (request.getAttribute("message") != null) { %>
-            <p style="color: green;"><%= request.getAttribute("message") %></p>
-            <% } %>
+            <!-- Sélection de l'heure de début -->
+            <label for="debutHeure">Heure de début :</label>
+            <select name="debutHeure" id="debutHeure" required>
+                <%
+                    for (int heure = 8; heure <= 20; heure++) {
+                        String heureFormattee = String.format("%02d:00", heure);
+                %>
+                <option value="<%= heureFormattee %>"><%= heureFormattee %></option>
+                <%
+                    }
+                %>
+            </select><br />
 
+            <!-- Sélection de l'heure de fin -->
+            <label for="finHeure">Heure de fin :</label>
+            <select name="finHeure" id="finHeure" required>
+                <%
+                    for (int heure = 9; heure <= 21; heure++) {
+                        String heureFormattee = String.format("%02d:00", heure);
+                %>
+                <option value="<%= heureFormattee %>"><%= heureFormattee %></option>
+                <%
+                    }
+                %>
+            </select><br />
+
+            <input type="hidden" name="id_etudiant" value="<%= etudiant != null ? etudiant.getIdEtudiant() : "" %>" />
+            <button type="submit">Inscrire</button>
         </form>
-        <%
-        } else if (request.getParameter("searchCours") != null) {
-        %>
-        <div style="margin-top: 20px; color: red;">Aucun cours disponible.</div>
-        <%
-            }
-        %>
+
+        <% } else if (etudiant != null) { %>
+        <div style="margin-top: 20px; color: red;">Aucun cours trouvé.</div>
+        <% } %>
     </div>
 </div>
 

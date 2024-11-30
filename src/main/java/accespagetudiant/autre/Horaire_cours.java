@@ -1,4 +1,4 @@
-package accespagetudiant;
+package accespagetudiant.autre;
 
 import java.sql.Timestamp;
 

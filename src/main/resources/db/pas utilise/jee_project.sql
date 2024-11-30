@@ -1,4 +1,4 @@
--- Création de la base de données
+- Création de la base de données
 CREATE DATABASE jee_project;
 USE jee_project;
 

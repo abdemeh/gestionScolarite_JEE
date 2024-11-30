@@ -1,5 +1,6 @@
-<%@ page import="admin.liste.etudiant_professeur.modele.Professeur" %>
+<%@ page import="admin.liste.etudiant_professeur.nonhibernate.modele.Professeur" %>
 <%@ page import="java.util.List" %>
+<%@ page import="modele.Enseignant" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -28,20 +29,20 @@
     </thead>
     <tbody>
     <%
-        List<Professeur> professeurs = (List<Professeur>) request.getAttribute("professeurs");
+        List<Enseignant> professeurs = (List<Enseignant>) request.getAttribute("professeurs");
         if (professeurs != null) {
-            for (Professeur professeur : professeurs) {
+            for (Enseignant professeur : professeurs) {
     %>
     <tr>
-        <td><%= professeur.idProfesseur %></td>
-        <td><%= professeur.nom %></td>
-        <td><%= professeur.prenom %></td>
-        <td><%= professeur.adresse %></td>
-        <td><%= professeur.email %></td>
-        <td><%= professeur.contact %></td>
-        <td><%= professeur.specialite %></td>
+        <td><%= professeur.getIdEnseignant() %></td>
+        <td><%= professeur.getUtilisateur().getNom() %></td>
+        <td><%= professeur.getUtilisateur().getPrenom() %></td>
+        <td><%= professeur.getUtilisateur().getAdresse() %></td>
+        <td><%= professeur.getUtilisateur().getEmail() %></td>
+        <td><%= professeur.getContact() %></td>
+        <td><%= professeur.getSpecialite() %></td>
         <td>
-            <a href="supprimerProfesseur?id=<%= professeur.idProfesseur %>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce professeur ?')">Supprimer</a>
+            <a href="supprimerProfesseur?id=<%= professeur.getIdEnseignant() %>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce professeur ?')">Supprimer</a>
         </td>
     </tr>
     <%

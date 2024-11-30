@@ -1,5 +1,6 @@
-<%@ page import="admin.liste.etudiant_professeur.modele.Etudiant" %>
+
 <%@ page import="java.util.List" %>
+<%@ page import="modele.Etudiant" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -29,23 +30,25 @@
     </thead>
     <tbody>
     <%
-        List<Etudiant> etudiants = (List<Etudiant>) request.getAttribute("etudiants");
-        if (etudiants != null) {
-            for (Etudiant etudiant : etudiants) {
+        List<Etudiant> etudiants =
+                (List<Etudiant>) request.getAttribute("etudiantList");
 
+
+        if (etudiants != null && !etudiants.isEmpty()) {
+            for (Etudiant etudiant : etudiants) {
     %>
     <tr>
         <td><%= etudiant.getIdEtudiant() %></td>
-        <td><%= etudiant.getNom() %></td>
-        <td><%= etudiant.getPrenom() %></td>
-        <td><%= etudiant.getAdresse() %></td>
-        <td><%= etudiant.getEmail() %></td>
+        <td><%= etudiant.getUtilisateur().getNom() %></td>
+        <td><%= etudiant.getUtilisateur().getPrenom() %></td>
+        <td><%= etudiant.getUtilisateur().getAdresse() %></td>
+        <td><%= etudiant.getUtilisateur().getEmail() %></td>
         <td><%= etudiant.getContact() %></td>
         <td><%= etudiant.getClasse() %></td>
         <td><%= etudiant.getFiliere() %></td>
         <td>
-
-            <a href="supprimerEtudiant?id=<%= etudiant.getIdEtudiant() %>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant ?')">Supprimer</a>
+            <a href="<%= request.getContextPath() %>/supprimerEtudiant?id=<%= etudiant.getIdEtudiant() %>"
+               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant ?')">Supprimer</a>
         </td>
     </tr>
     <%
