@@ -138,17 +138,23 @@ select:focus {
 input[type="submit"] {
     background-color: var(--accent-clr);
     color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+    font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 2px solid;
+    border-color: var(--accent-clr);
+    border-radius: 25px;
+    cursor: pointer;
 }
 
 input[type="submit"]:hover {
-    background-color: #484eff;
-    box-shadow: 0 4px 8px rgba(94, 99, 255, 0.5);
+    background-color: transparent;
+    color:var(--text-clr);
+    border: 2px solid;
+    border-color: var(--accent-clr);
+    border-radius: 25px;
 }
 
 .dropdown-btn svg{
@@ -192,7 +198,8 @@ main p{
 
     h2, p { margin-top: 1em }
 }
-.registration-form {
+.registration-form,
+.login-form{
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
@@ -227,13 +234,6 @@ main p{
     margin-top: 20px;
 }
 
-.submit-container input[type="submit"] {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
 .error-message {
     background-color: #f8d7da; /* Light red background for error messages */
     color: #842029; /* Dark red text for contrast */
@@ -250,9 +250,6 @@ main p{
     animation: fadeIn 2s ease-in-out; /* Optional fade-in and fade-out effect */
 }
 
-.submit-container input[type="submit"]:hover {
-    background-color: #0056b3;
-}
 @media(max-width: 800px){
     body{
         grid-template-columns: 1fr;

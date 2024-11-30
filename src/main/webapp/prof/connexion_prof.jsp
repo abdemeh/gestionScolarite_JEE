@@ -93,15 +93,15 @@
     <form action="listeResultats" method="post" class="login-form">
         <div class="form-container">
             <div class="form-column">
-                <label for="id_enseignant">ID Enseignant :</label>
+                <label for="id_enseignant">Identifiant Enseignant :</label>
                 <input type="text" id="id_enseignant" name="id_enseignant" required /><br />
 
-                <label for="mot_de_passe">Mot de Passe :</label>
+                <label for="mot_de_passe">Mot de passe :</label>
                 <input type="password" name="mot_de_passe" id="mot_de_passe" required /><br />
             </div>
         </div>
         <div class="submit-container">
-            <input type="submit" value="Soumettre" />
+            <input type="submit" value="Se connecter" />
         </div>
     </form>
 </main>
