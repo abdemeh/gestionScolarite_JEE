@@ -58,6 +58,8 @@ public class Enregistrer_eleve extends HttpServlet {
 
         etudiantDAO.saveEtudiant(etudiant);
 
+        response.sendRedirect("creer_eleve");
+
 
 /*
         try {
