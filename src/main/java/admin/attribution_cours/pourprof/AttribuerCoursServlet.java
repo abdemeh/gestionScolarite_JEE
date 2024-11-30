@@ -1,11 +1,14 @@
 package admin.attribution_cours.pourprof;
 
 import admin.ExecuteSchema;
+import dao.CoursDAO;
+import dao.EnseignantDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import modele.Cours;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,9 +19,11 @@ import java.sql.SQLException;
 @WebServlet(name = "AttribuerCoursServlet", value = "/attribuerCours")
 public class AttribuerCoursServlet extends HttpServlet {
 
-    private static final String DB_URL = ExecuteSchema.getDbUrl() + "/jee_project";
+   /* private static final String DB_URL = ExecuteSchema.getDbUrl() + "/jee_project";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
+    */
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,20 +33,21 @@ public class AttribuerCoursServlet extends HttpServlet {
         String nomCours = request.getParameter("nom_cours");
         String description = request.getParameter("description");
 
+
         // Validation des paramètres
         if (idProfesseurStr == null || idProfesseurStr.isEmpty()) {
             request.setAttribute("message", "Le professeur est requis.");
-            request.getRequestDispatcher("admin/attribution_cours_au_prof_par_admin.jsp").forward(request, response);
+            request.getRequestDispatcher("listeCours").forward(request, response);
             return;
         }
         if (nomCours == null || nomCours.isEmpty()) {
             request.setAttribute("message", "Le nom du cours est requis.");
-            request.getRequestDispatcher("admin/attribution_cours_au_prof_par_admin.jsp").forward(request, response);
+            request.getRequestDispatcher("listeCours").forward(request, response);
             return;
         }
         if (description == null || description.isEmpty()) {
             request.setAttribute("message", "La description est requise.");
-            request.getRequestDispatcher("admin/attribution_cours_au_prof_par_admin.jsp").forward(request, response);
+            request.getRequestDispatcher("listeCours").forward(request, response);
             return;
         }
 
@@ -55,6 +61,16 @@ public class AttribuerCoursServlet extends HttpServlet {
             return;
         }
 
+        CoursDAO coursDAO=new CoursDAO();
+        Cours cours=new Cours();
+        cours.setNomCours(nomCours);
+        cours.setDescription(description);
+        cours.setEnseignant(new EnseignantDAO().getProfesseurById(Integer.parseInt(idProfesseurStr)));
+        coursDAO.saveCours(cours);
+
+        response.sendRedirect("listeCours");
+
+        /*
         // Requête d'insertion dans la base de données
         String sqlInsert = "INSERT INTO cours (nom_cours, description, id_enseignant) VALUES (?, ?, ?)";
 
@@ -73,6 +89,6 @@ public class AttribuerCoursServlet extends HttpServlet {
         }
 
         // Redirection après enregistrement
-        response.sendRedirect("listeCours");
+        response.sendRedirect("listeCours");*/
     }
 }

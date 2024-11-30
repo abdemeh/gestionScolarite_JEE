@@ -36,10 +36,10 @@ public class NoteDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.err.println("Erreur lors de l'enregistrement de la note : " + e.getMessage());
-            throw e; // Rejeter l'exception pour la remonter au servlet
+            throw new RuntimeException("Error saving note", e);
         }
     }
+
     // Récupérer une note par ID
     public Note getNoteById(int id) {
         try (Session session = sessionFactory.openSession()) {

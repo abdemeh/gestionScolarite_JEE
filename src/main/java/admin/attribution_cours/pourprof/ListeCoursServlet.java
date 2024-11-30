@@ -37,6 +37,10 @@ public class ListeCoursServlet extends HttpServlet {
         request.setAttribute("cours", cours);
         request.getRequestDispatcher("admin/attribution_cours_au_prof_par_admin.jsp").forward(request, response);
 
-
 }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 }

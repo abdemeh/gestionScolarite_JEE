@@ -1,6 +1,7 @@
 package dao;
 
 
+import hibernate.HibernateUtil;
 import modele.InscriptionCours;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,18 +24,20 @@ public class InscriptionCoursDAO {
     }
 
     // Ajouter une inscription
-    public void saveInscription(InscriptionCours inscription) {
+    public void saveInscription(InscriptionCours inscriptionCours) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.save(inscription);
+            session.save(inscriptionCours);
             transaction.commit();
-            System.out.println("Inscription ajoutée avec succès.");
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            System.err.println("Erreur lors de l'ajout de l'inscription : " + e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error saving inscription", e);
         }
     }
+
 
     // Récupérer une inscription par ID
     public InscriptionCours getInscriptionById(int id) {

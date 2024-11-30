@@ -1,17 +1,27 @@
 package admin.attribution_cours.poureleve;
 
 import admin.ExecuteSchema;
+import dao.CoursDAO;
+import dao.EtudiantDAO;
+import dao.InscriptionCoursDAO;
+import dao.NoteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import modele.Cours;
+import modele.Etudiant;
+import modele.InscriptionCours;
+import modele.Note;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @WebServlet(name = "InscrireCoursServlet", value = "/inscrireCours")
 public class InscrireCoursServlet extends HttpServlet {
@@ -22,29 +32,86 @@ public class InscrireCoursServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Récupération des paramètres
-        String idEtudiant = request.getParameter("id_etudiant");
-        String idCours = request.getParameter("id_cours");
-        String dateCours = request.getParameter("dateCours"); // Date sélectionnée
-        String debutHeure = request.getParameter("debutHeure"); // Heure de début
-        String finHeure = request.getParameter("finHeure"); // Heure de fin
 
-        if (idEtudiant == null || idCours == null || dateCours == null || debutHeure == null || finHeure == null) {
-            request.setAttribute("message", "Tous les champs sont obligatoires.");
+        try {
+            // Retrieve parameters
+            String idEtudiantStr = request.getParameter("id_etudiant");
+            String idCoursStr = request.getParameter("id_cours");
+            String dateCours = request.getParameter("dateCours");
+            String debutHeure = request.getParameter("debutHeure");
+            String finHeure = request.getParameter("finHeure");
+
+            // Validate parameters
+            if (idEtudiantStr == null || idCoursStr == null || dateCours == null || debutHeure == null || finHeure == null) {
+                request.setAttribute("message", "Tous les champs sont obligatoires.");
+                request.getRequestDispatcher("listeInscriptions").forward(request, response);
+                return; // Stop execution
+            }
+
+            // Combine date and time
+            String debutCoursStr = dateCours + "T" + debutHeure;
+            String finCoursStr = dateCours + "T" + finHeure;
+
+            // Parse inputs
+            int idEtudiant = Integer.parseInt(idEtudiantStr);
+            int idCours = Integer.parseInt(idCoursStr);
+            LocalDateTime debutCours = LocalDateTime.parse(debutCoursStr);
+            LocalDateTime finCours = LocalDateTime.parse(finCoursStr);
+
+            if (debutCours.isAfter(finCours)) {
+                request.setAttribute("message", "L'heure de fin doit être après l'heure de début.");
+                request.getRequestDispatcher("listeInscriptions").forward(request, response);
+                return; // Stop execution
+            }
+
+            // Retrieve entities
+            Etudiant etudiant = new EtudiantDAO().getEtudiantById(idEtudiant);
+            if (etudiant == null) {
+                request.setAttribute("message", "Étudiant introuvable.");
+                request.getRequestDispatcher("listeInscriptions").forward(request, response);
+                return; // Stop execution
+            }
+
+            Cours cours = new CoursDAO().getCoursById(idCours);
+            if (cours == null) {
+                request.setAttribute("message", "Cours introuvable.");
+                request.getRequestDispatcher("listeInscriptions").forward(request, response);
+                return; // Stop execution
+            }
+
+            // Create and save InscriptionCours
+            InscriptionCours inscriptionCours = new InscriptionCours();
+            inscriptionCours.setEtudiant(etudiant);
+            inscriptionCours.setCours(cours);
+            inscriptionCours.setDebutCours(debutCours);
+            inscriptionCours.setFinCours(finCours);
+
+            InscriptionCoursDAO inscriptionCoursDAO = new InscriptionCoursDAO();
+            inscriptionCoursDAO.saveInscription(inscriptionCours);
+
+            // Create and save Note
+            Note note = new Note();
+            note.setEtudiant(etudiant);
+            note.setCours(cours);
+            note.setNote(BigDecimal.ZERO);
+
+            NoteDAO noteDAO = new NoteDAO();
+            noteDAO.saveNote(note);
+
+            // Redirect to success page
+            response.sendRedirect("listeInscriptions"); // Ensure this is not after response content is written
+        } catch (IllegalArgumentException e) {
+            // Handle validation errors
+            request.setAttribute("message", "Erreur de validation : " + e.getMessage());
             request.getRequestDispatcher("listeInscriptions").forward(request, response);
-            return;
-        }
-
-        // Combiner la date et les heures pour obtenir les timestamps complets
-        String debutCours = dateCours + "T" + debutHeure;
-        String finCours = dateCours + "T" + finHeure;
-
-        // Vérification que l'heure de fin est après l'heure de début
-        if (debutCours.compareTo(finCours) >= 0) {
-            request.setAttribute("message", "L'heure de fin doit être après l'heure de début.");
+        } catch (Exception e) {
+            // Handle unexpected errors
+            request.setAttribute("message", "Erreur inattendue : " + e.getMessage());
             request.getRequestDispatcher("listeInscriptions").forward(request, response);
-            return;
         }
+    }
+
+        /*
 
         // Requêtes SQL
         String sqlInsertInscriptions = "INSERT INTO inscriptions_cours (id_etudiant, id_cours, debut_cours, fin_cours) VALUES (?, ?, ?, ?)";
@@ -72,9 +139,6 @@ public class InscrireCoursServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             request.setAttribute("message", "Erreur lors de l'inscription : " + e.getMessage());
-        }
+        }*/
 
-        // Redirection vers la liste des inscriptions
-        response.sendRedirect("listeInscriptions");
-    }
 }
