@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
-<%@ page import="accespagetudiant.Note" %>
-<%@ page import="accespagetudiant.Horaire_cours" %>
+<%@ page import="accespagetudiant.autre.Note" %>
+<%@ page import="accespagetudiant.autre.Horaire_cours" %>
+<%@ page import="modele.InscriptionCours" %>
+<%@ page import="jakarta.persistence.criteria.CriteriaBuilder" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"%>
 
 <!DOCTYPE html>
@@ -20,15 +22,15 @@
     </tr>
     <%
         // Récupérer la liste des notes passée par la servlet
-        List<Note> notes = (List<Note>) request.getAttribute("notes");
+        List<modele.Note> notes = (List<modele.Note>) request.getAttribute("notes");
 
         // Vérifier si la liste n'est pas vide
         if (notes != null) {
             // Parcourir la liste des notes et afficher chaque ligne dans le tableau
-            for (Note note : notes) {
+            for (modele.Note note : notes) {
     %>
     <tr>
-        <td><%= note.getCoursNom() %></td>
+        <td><%= note.getCours().getNomCours()%></td>
         <td><%= note.getNote() %></td>
     </tr>
     <%
@@ -39,23 +41,29 @@
 <table border="1">
     <tr>
         <th>Nom du Cours</th>
-        <th>Date</th>
+        <th>Enseignant</th>
+        <th>Date debut</th>
+        <th>Date fin</th>
     </tr>
     <%
+        List<InscriptionCours> inscriptionCours= (List<InscriptionCours>) request.getAttribute("inscriptionCours");
         // Récupérer la liste des notes passée par la servlet
-        List<Horaire_cours> date_cours = (List<Horaire_cours>) request.getAttribute("date_cours");
+        for (InscriptionCours inscription:inscriptionCours) {
 
         // Vérifier si la liste n'est pas vide
-        if (date_cours != null) {
+
             // Parcourir la liste des notes et afficher chaque ligne dans le tableau
-            for (Horaire_cours horaire_cours : date_cours) {
+
     %>
     <tr>
-        <td><%= horaire_cours.getCoursNom() %></td>
-        <td><%= horaire_cours.getDate() %></td>
+
+        <td><%= inscription.getCours().getNomCours() %></td>
+        <td><%= inscription.getCours().getEnseignant().getUtilisateur().getNom()%>  <%=inscription.getCours().getEnseignant().getUtilisateur().getPrenom() %></td>
+        <td><%= inscription.getDebutCours() %></td>
+        <td><%= inscription.getFinCours() %></td>
     </tr>
     <%
-            }
+
         }
     %>
 </table>

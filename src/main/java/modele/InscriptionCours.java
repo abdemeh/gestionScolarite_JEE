@@ -1,6 +1,5 @@
 package modele;
 
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -21,9 +20,11 @@ public class InscriptionCours {
     @JoinColumn(name = "id_cours", nullable = false)
     private Cours cours;
 
+    @Column(name = "debut_cours", nullable = false)
+    private LocalDateTime debutCours;
 
-    @Column(name = "date_inscription", nullable = false)
-    private LocalDateTime dateInscription;
+    @Column(name = "fin_cours", nullable = false)
+    private LocalDateTime finCours;
 
     // Getters et Setters
     public int getIdInscription() {
@@ -50,11 +51,19 @@ public class InscriptionCours {
         this.cours = cours;
     }
 
-    public LocalDateTime getDateInscription() {
-        return dateInscription;
+    public LocalDateTime getDebutCours() {
+        return debutCours;
     }
 
-    public void setDateInscription(LocalDateTime dateInscription) {
-        this.dateInscription = dateInscription;
+    public void setDebutCours(LocalDateTime debutCours) {
+        this.debutCours = debutCours;
+    }
+
+    public LocalDateTime getFinCours() {
+        return finCours;
+    }
+
+    public void setFinCours(LocalDateTime finCours) {
+        this.finCours = finCours;
     }
 }

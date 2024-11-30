@@ -110,7 +110,7 @@ public class InscriptionCoursDAO {
                 "Inscription ID: " + i.getIdInscription() +
                         ", Étudiant: " + i.getEtudiant().getUtilisateur().getNom() +
                         ", Cours: " + i.getCours().getNomCours() +
-                        ", Date d'inscription: " + i.getDateInscription()
+                        ", Date d'heure debut: " + i.getDebutCours()
         ));
     }
 }

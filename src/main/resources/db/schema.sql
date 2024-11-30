@@ -65,7 +65,8 @@
                                   id_inscription INT AUTO_INCREMENT PRIMARY KEY,
                                   id_etudiant INT NOT NULL,
                                   id_cours INT NOT NULL,
-                                  date_inscription DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                  debut_cours DATETIME NOT NULL,
+                                  fin_cours DATETIME NOT NULL,
                                   FOREIGN KEY (id_etudiant) REFERENCES etudiants(id_etudiant) ON DELETE CASCADE,
                                   FOREIGN KEY (id_cours) REFERENCES cours(id_cours) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -127,10 +128,10 @@
         (1);
 
     -- Insérer des inscriptions à des cours
-    INSERT INTO inscriptions_cours (id_etudiant, id_cours)
+    INSERT INTO inscriptions_cours (id_etudiant, id_cours, debut_cours, fin_cours)
     VALUES
-        (1, 1),
-        (1, 2);
+        (1, 1, '2024-01-15 09:00:00', '2024-06-15 12:00:00'),
+        (1, 2, '2024-02-01 14:00:00', '2024-07-01 17:00:00');
 
     INSERT INTO resultats (id_etudiant, id_cours, note)
     VALUES
