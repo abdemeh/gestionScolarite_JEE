@@ -47,9 +47,45 @@
         <h1>Liste des Notes</h1>
     </header>
 
+    <!-- Course Registration Table -->
+    <div class="container calendar-container">
+        <h2>Calendrier des Cours</h2>
+        <div class="calendar">
+            <%
+                // Prepare date formatter
+                DateTimeFormatter frenchDateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+                // Retrieve courses and display them in a calendar layout
+                List<InscriptionCours> inscriptionCours = (List<InscriptionCours>) request.getAttribute("inscriptionCours");
+
+                if (inscriptionCours != null && !inscriptionCours.isEmpty()) {
+                    for (InscriptionCours inscription : inscriptionCours) {
+                        LocalDateTime debutCours = inscription.getDebutCours();
+                        LocalDateTime finCours = inscription.getFinCours();
+            %>
+            <div class="calendar-item">
+                <div class="course-date">
+                    <span><%= debutCours.format(frenchDateTimeFormatter) %> &#8594; <%= finCours.format(frenchDateTimeFormatter) %></span>
+                </div>
+                <div class="course-details">
+                    <h3><%= inscription.getCours().getNomCours() %></h3>
+                    <p><strong>Enseignant:</strong> <%= inscription.getCours().getEnseignant().getUtilisateur().getNom() %> <%= inscription.getCours().getEnseignant().getUtilisateur().getPrenom() %></p>
+                </div>
+            </div>
+            <%
+                }
+            } else {
+            %>
+            <p>Aucune information de cours disponible.</p>
+            <%
+                }
+            %>
+        </div>
+    </div>
+
     <!-- Notes Table -->
     <div class="container">
-        <h2>Notes des Cours</h2>
+        <h2>Notes</h2>
         <table>
             <thead>
             <tr>
@@ -73,50 +109,6 @@
             %>
             <tr>
                 <td colspan="2">Aucune note disponible.</td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Course Registration Table -->
-    <div class="container">
-        <h2>Informations des Cours</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Nom du Cours</th>
-                <th>Enseignant</th>
-                <th>Date de Début</th>
-                <th>Date de Fin</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                List<InscriptionCours> inscriptionCours = (List<InscriptionCours>) request.getAttribute("inscriptionCours");
-                DateTimeFormatter frenchDateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
-                if (inscriptionCours != null && !inscriptionCours.isEmpty()) {
-                    for (InscriptionCours inscription : inscriptionCours) {
-            %>
-            <tr>
-                <td><%= inscription.getCours().getNomCours() %></td>
-                <td><%= inscription.getCours().getEnseignant().getUtilisateur().getNom() %> <%= inscription.getCours().getEnseignant().getUtilisateur().getPrenom() %></td>
-                <%
-                    LocalDateTime debutCours = inscription.getDebutCours();
-                    LocalDateTime finCours = inscription.getFinCours();
-                %>
-                <td><%= debutCours.format(frenchDateTimeFormatter) %></td>
-                <td><%= finCours.format(frenchDateTimeFormatter) %></td>
-            </tr>
-            <%
-                }
-            } else {
-            %>
-            <tr>
-                <td colspan="4">Aucune information disponible.</td>
             </tr>
             <%
                 }
