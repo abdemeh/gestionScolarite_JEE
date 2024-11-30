@@ -2,7 +2,7 @@
     <session-factory>
         <!-- Configuration JDBC -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jee_project</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">1234</property>
 
@@ -14,6 +14,17 @@
         <property name="hibernate.format_sql">true</property>
 
         <!-- Auto-validation du schéma -->
-        <property name="hibernate.hbm2ddl.auto">validate</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Mappings pour les entités -->
+        <mapping class="modele.Etudiant"/>
+        <mapping class="modele.Cours"/>
+        <mapping class="modele.Enseignant"/>
+        <mapping class="modele.InscriptionCours"/>
+        <mapping class="modele.Note"/>
+        <mapping class="modele.Utilisateur"/>
+        <mapping class="modele.InscriptionAnnee"/>
+        <!-- Ajoutez d'autres classes ici si nécessaire -->
+
     </session-factory>
 </hibernate-configuration>

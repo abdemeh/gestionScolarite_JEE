@@ -37,7 +37,8 @@ public class EnseignantDAO {
         }
     }
 
-    public Enseignant getProfesseurById(int id) {
+    public Enseignant getProfesseurById(int id)
+    {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Enseignant.class, id);
         } catch (Exception e) {
