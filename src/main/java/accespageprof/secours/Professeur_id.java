@@ -1,4 +1,4 @@
-package accespageprof;
+package accespageprof.secours;
 
 public class Professeur_id {
 

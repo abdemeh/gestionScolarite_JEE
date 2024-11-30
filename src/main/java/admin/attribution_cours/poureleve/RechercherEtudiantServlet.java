@@ -3,11 +3,13 @@ package admin.attribution_cours.poureleve;
 
 
 import admin.ExecuteSchema;
+import dao.EtudiantDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import modele.Etudiant;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,18 +17,20 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static admin.attribution_cours.poureleve.Pourelevestat.etudiant;
 
 @WebServlet(name = "RechercherEtudiantServlet", value = "/rechercherEtudiant")
 public class RechercherEtudiantServlet extends HttpServlet {
 
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+ /*   private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 
-
+*/
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String searchEtudiant = request.getParameter("searchEtudiant");
@@ -36,6 +40,26 @@ public class RechercherEtudiantServlet extends HttpServlet {
             request.getRequestDispatcher("listeInscriptions").forward(request, response);
             return;
         }
+
+        List<Etudiant> etudiantList = new EtudiantDAO().getAllEtudiants();
+        Etudiant etudiants = null;
+
+        for (Etudiant etudiant : etudiantList) {
+            // Vérifier si le critère correspond à l'ID, au prénom ou au nom
+            if (etudiant.getIdEtudiant() == Integer.parseInt((searchEtudiant))) {
+                Pourelevestat.etudiantparticulier=etudiant;
+            }
+        }
+
+        if (etudiants==null) {
+            request.setAttribute("message", "Aucun étudiant trouvé correspondant au critère.");
+        } else {
+            request.setAttribute("etudiants", etudiants);
+        }
+
+        request.getRequestDispatcher("listeInscriptions").forward(request, response);
+
+        /*
 
         String sql = "SELECT e.id_etudiant, u.nom, u.prenom, e.classe, e.filiere, ia.date_inscription " +
                 "FROM etudiants e " +
@@ -70,9 +94,10 @@ public class RechercherEtudiantServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             throw new ServletException("Erreur lors de la recherche de l'étudiant.", e);
-        }
-
+*/
         request.getRequestDispatcher("listeInscriptions").forward(request, response);
     }
+
+
 }
 

@@ -2,7 +2,7 @@ package admin.liste.etudiant_professeur.controlleur.professeur;
 
 
 
-import admin.liste.etudiant_professeur.Dao.ProfesseurDAO;
+import dao.EnseignantDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +15,14 @@ import java.io.IOException;
 @WebServlet(name = "SupprimerProfesseurServlet", urlPatterns = "/supprimerProfesseur")
 public class SupprimerProfesseurServlet extends HttpServlet {
 
-    private ProfesseurDAO professeurDAO = new ProfesseurDAO();
+    private EnseignantDAO professeurDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        // Initialisation de ProfesseurDAO (si nécessaire, injectez une instance partagée ou une factory)
+        professeurDAO = new EnseignantDAO();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,7 +30,7 @@ public class SupprimerProfesseurServlet extends HttpServlet {
         if (idProfesseurParam != null && !idProfesseurParam.trim().isEmpty()) {
             try {
                 int idProfesseur = Integer.parseInt(idProfesseurParam);
-                professeurDAO.supprimerProfesseur(idProfesseur);
+                professeurDAO.deleteProfesseur(Integer.parseInt(idProfesseurParam));
                 response.sendRedirect("listeProfesseurs");
             } catch (Exception e) {
                 throw new ServletException("Erreur lors de la suppression du professeur", e);

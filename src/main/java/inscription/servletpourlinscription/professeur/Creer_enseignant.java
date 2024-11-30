@@ -1,5 +1,6 @@
 package inscription.servletpourlinscription.professeur;
 
+import dao.UtilisateurDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +21,7 @@ public class Creer_enseignant extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des paramètres du formulaire
+        UtilisateurDAO utilisateurDAO=new UtilisateurDAO();
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String telephone = request.getParameter("telephone");
@@ -31,6 +33,11 @@ public class Creer_enseignant extends HttpServlet {
         String commune = request.getParameter("commune");
         String codePostal = request.getParameter("code_postal");
         String specialite = request.getParameter("specialite");
+        if (utilisateurDAO.getUtilisateurByEmail(email) != null) {
+            request.setAttribute("errorMessage", "Cet email est déjà utilisé.");
+            request.getRequestDispatcher("/inscription_enseignant.jsp").forward(request, response);
+            return;
+        }
 
 
         // Ajouter les informations comme attributs de la requête

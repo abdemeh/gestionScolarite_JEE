@@ -56,6 +56,7 @@ public class ExecuteSchema {
 
                 System.out.println("Script SQL exécuté avec succès.");
 
+
             } catch (SQLException e) {
                 System.err.println("Erreur SQL : " + e.getMessage());
                 e.printStackTrace();

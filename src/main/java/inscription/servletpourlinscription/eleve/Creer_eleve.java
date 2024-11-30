@@ -1,5 +1,6 @@
 package inscription.servletpourlinscription.eleve;
 
+import dao.UtilisateurDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,8 +21,7 @@ public class Creer_eleve extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-
+        UtilisateurDAO utilisateurDAO=new UtilisateurDAO();
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String telephone = request.getParameter("telephone");
@@ -50,6 +50,12 @@ public class Creer_eleve extends HttpServlet {
         request.setAttribute("specialite", specialite);
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+
+        if (utilisateurDAO.getUtilisateurByEmail(email) != null) {
+            request.setAttribute("errorMessage", "Cet email est déjà utilisé.");
+            request.getRequestDispatcher("/inscription_eleve.jsp").forward(request, response);
+            return;
+        }
 
         request.getRequestDispatcher("afficherEleve.jsp").forward(request, response);
         }

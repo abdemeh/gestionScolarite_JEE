@@ -1,33 +1,52 @@
 package accespageprof;
 
-import admin.ExecuteSchema;
+import accespageprof.secours.Professeur_id;
+import dao.NoteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @WebServlet(name = "ModifierNotesServlet", value = "/modifierNotes")
 public class ModifierNotesServlet extends HttpServlet {
 
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    /*private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
-    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire*/
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String[] idResultats = request.getParameterValues("id_resultat");
-        String idProfesseur = Professeur_id.id;
 
+
+
+
+        String[] idResultats = request.getParameterValues("id_resultat");
+        List<Integer> idResultatsList = new ArrayList<>();
+        List<BigDecimal> nouvellesNotesList = new ArrayList<>();
+        for (String id : idResultats) {
+            String noteParam = "note_" + id;
+            String noteValue = request.getParameter(noteParam);
+
+            if (noteValue != null && !noteValue.isEmpty()) {
+                idResultatsList.add(Integer.parseInt(id));
+                nouvellesNotesList.add(new BigDecimal(noteValue));
+            }
+        }
+
+
+        NoteDAO noteDAO = new NoteDAO();
+        noteDAO.updateNotes(idResultatsList, nouvellesNotesList);
+        response.sendRedirect("listeResultats");
+
+
+/*
         if (idResultats == null || idResultats.length == 0 || idProfesseur == null || idProfesseur.isEmpty()) {
             request.setAttribute("message", "Aucune note ou ID professeur fourni pour la mise à jour.");
             request.getRequestDispatcher("gestion_notes.jsp").forward(request, response);
@@ -89,9 +108,8 @@ public class ModifierNotesServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             request.setAttribute("message", "Erreur lors de la récupération des résultats mis à jour : " + e.getMessage());
-        }
+        }*/
 
 
-        response.sendRedirect("listeResultats");
     }
 }

@@ -1,11 +1,16 @@
 package accespageprof;
 
 import admin.ExecuteSchema;
+import dao.CoursDAO;
+import dao.EnseignantDAO;
+import dao.NoteDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import modele.Enseignant;
+import modele.Note;
 
 import java.io.IOException;
 import java.sql.*;
@@ -18,9 +23,9 @@ import java.util.Map;
 @WebServlet(name = "ListeResultatsServlet", value = "/listeResultats")
 public class ListeResultatsServlet extends HttpServlet {
 
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    /*private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
-    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
+    private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire*/
 
 
     @Override
@@ -33,10 +38,10 @@ public class ListeResultatsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String idProfesseur = request.getParameter("id_enseignant");
+        String idProfesseur =  request.getParameter("id_enseignant");
         String motDePasse = request.getParameter("mot_de_passe");
+        EnseignantDAO enseignantDAO=new EnseignantDAO();
 
-       Professeur_id.id=idProfesseur;
 
 
 
@@ -45,6 +50,39 @@ public class ListeResultatsServlet extends HttpServlet {
             request.getRequestDispatcher("prof/connexion_prof.jsp").forward(request, response);
             return;
         }
+        Enseignant enseignant;
+
+        // Récupérer le professeur par ID
+
+             enseignant = enseignantDAO.getProfesseurById(Integer.parseInt(idProfesseur));
+
+
+
+
+
+        if (enseignant != null && enseignant.getUtilisateur().getMotDePasse().equals(motDePasse)) {
+            // Authentification réussie
+            NoteDAO noteDAO = new NoteDAO();
+            List<Note> resultats = noteDAO.getNotesByEnseignant(enseignant.getIdEnseignant());
+
+            request.setAttribute("resultats", resultats);
+            request.setAttribute("id_enseignant", idProfesseur);
+            request.getRequestDispatcher("prof/gestion_notes.jsp").forward(request, response);
+        } else {
+            // Échec de l'authentification
+            request.setAttribute("message", "Mot de passe incorrect ou ID incorrect.");
+            request.getRequestDispatcher("prof/connexion_prof.jsp").forward(request, response);
+        }
+
+
+
+
+
+     /*  Professeur_id.id=idProfesseur;
+
+
+
+
 
 
         // Étape 1 : Vérifier le mot de passe de l'enseignant
@@ -103,10 +141,9 @@ public class ListeResultatsServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             throw new ServletException("Erreur lors de la récupération des résultats.", e);
-        }
+        }*/
 
-        request.setAttribute("resultats", resultats);
-        request.getRequestDispatcher("prof/gestion_notes.jsp").forward(request, response);
+
     }
 
 

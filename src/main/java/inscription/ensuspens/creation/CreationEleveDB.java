@@ -1,4 +1,4 @@
-package inscription.creation;
+package inscription.ensuspens.creation;
 
 import admin.ExecuteSchema;
 

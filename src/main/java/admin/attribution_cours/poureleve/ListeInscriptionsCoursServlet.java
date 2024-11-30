@@ -1,30 +1,33 @@
 package admin.attribution_cours.poureleve;
 
-import admin.ExecuteSchema;
+import dao.InscriptionCoursDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import modele.InscriptionCours;
 
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @WebServlet(name = "ListeInscriptionsServlet", value = "/listeInscriptions")
-public class ListeInscriptionsServlet extends HttpServlet {
+public class ListeInscriptionsCoursServlet extends HttpServlet {
 
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+  /*  private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
-
+*/
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Map<String, String>> inscriptions = new ArrayList<>();
+        List<InscriptionCours> inscriptions=new InscriptionCoursDAO().getAllInscriptions();
+
+
+
+        request.setAttribute("inscriptions", inscriptions);
+        request.getRequestDispatcher("admin/inscription_eleve_cours_par_admin.jsp").forward(request, response);
+       /* List<Map<String, String>> inscriptions = new ArrayList<>();
 
         String sql = "SELECT e.id_etudiant, e.classe, e.filiere, c.nom_cours, u.nom AS nom_professeur, i.date_inscription " +
                 "FROM inscriptions_cours i " +
@@ -54,5 +57,8 @@ public class ListeInscriptionsServlet extends HttpServlet {
 
         request.setAttribute("inscriptions", inscriptions);
         request.getRequestDispatcher("admin/inscription_eleve_cours_par_admin.jsp").forward(request, response);
+
+    */
     }
+
 }

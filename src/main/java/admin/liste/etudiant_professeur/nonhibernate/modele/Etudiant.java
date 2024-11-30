@@ -1,4 +1,4 @@
-package admin.liste.etudiant_professeur.modele;
+package admin.liste.etudiant_professeur.nonhibernate.modele;
 
 
 // Classe Etudiant pour représenter les données

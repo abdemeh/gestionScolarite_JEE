@@ -1,8 +1,8 @@
-package admin.liste.etudiant_professeur.Dao;
+package admin.liste.etudiant_professeur.nonhibernate.Dao;
 
 
 import admin.ExecuteSchema;
-import admin.liste.etudiant_professeur.modele.Etudiant;
+import admin.liste.etudiant_professeur.nonhibernate.modele.Etudiant;
 
 import java.sql.*;
 import java.util.ArrayList;

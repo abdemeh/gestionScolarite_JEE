@@ -1,4 +1,4 @@
-package accespagetudiant;
+package accespagetudiant.autre;
 
 public class Note {
     private String coursNom;

@@ -1,12 +1,18 @@
 package accespagetudiant;
 
 import admin.ExecuteSchema;
+import dao.EtudiantDAO;
+import dao.InscriptionCoursDAO;
+import dao.NoteDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import modele.Etudiant;
+import modele.InscriptionCours;
+import modele.Note;
 
 import java.io.IOException;
 import java.sql.*;
@@ -30,7 +36,24 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idEtudiant = request.getParameter("id_etudiant");
         String motDePasseSaisi = request.getParameter("mot_de_passe");
+        NoteDAO dao=new NoteDAO();
+        InscriptionCoursDAO inscriptionCoursDAO=new InscriptionCoursDAO();
 
+        if (idEtudiant == null || motDePasseSaisi == null || idEtudiant.isEmpty() || motDePasseSaisi.isEmpty()) {
+            request.setAttribute("message", "ID  et mot de passe requis.");
+            request.getRequestDispatcher("/etudiant/login.jsp").forward(request, response);
+            return;
+        }
+
+        List<Note> notes=dao.getNotesByEtudiant(Integer.parseInt(idEtudiant));
+        List<InscriptionCours> inscriptionCours=inscriptionCoursDAO.getInscriptionsByEtudiant(Integer.parseInt(idEtudiant));
+        request.setAttribute("notes",notes);
+        request.setAttribute("inscriptionCours",inscriptionCours);
+
+        request.getRequestDispatcher("etudiant/notes.jsp").forward(request, response);
+
+
+/*
         // Connexion à la base de données pour vérifier les identifiants
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
 
@@ -96,5 +119,7 @@ public class LoginController extends HttpServlet {
             request.setAttribute("error", "Erreur lors de la connexion à la base de données.");
             request.getRequestDispatcher("etudiant/login.jsp").forward(request, response);
         }
+        */
+
     }
 }

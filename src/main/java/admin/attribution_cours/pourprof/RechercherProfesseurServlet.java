@@ -1,11 +1,13 @@
 package admin.attribution_cours.pourprof;
 
 import admin.ExecuteSchema;
+import dao.EnseignantDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import modele.Enseignant;
 
 import java.io.IOException;
 import java.sql.*;
@@ -21,17 +23,31 @@ public class RechercherProfesseurServlet extends HttpServlet {
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 
+    private EnseignantDAO enseignantDAO;
+
+    @Override
+    public void init() throws ServletException {
+        enseignantDAO = new EnseignantDAO();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String search = request.getParameter("search"); // Récupère le terme de recherche
+        String search = request.getParameter("search");
 
-        if (search == null || search.trim().isEmpty()) {
-            request.setAttribute("message", "Veuillez entrer un critère de recherche (nom ou prénom).");
-            request.getRequestDispatcher("attribution_cours_au_prof_par_admin.jsp").forward(request, response);
-            return;
+        if (search != null && !search.trim().isEmpty()) {
+            // Rechercher les professeurs
+            List<Enseignant> professeurs = enseignantDAO.rechercherProfesseurs(search);
+
+            if (professeurs == null || professeurs.isEmpty()) {
+                request.setAttribute("message", "Aucun professeur trouvé pour la recherche : " + search);
+            } else {
+                request.setAttribute("professeurs", professeurs);
+            }
+        } else {
+            request.setAttribute("message", "Veuillez entrer un terme de recherche valide.");
         }
 
+        /*
         // Requête SQL pour chercher les professeurs
         String sql = "SELECT e.id_enseignant, u.nom, u.prenom " +
                 "FROM enseignants e " +
@@ -65,10 +81,10 @@ public class RechercherProfesseurServlet extends HttpServlet {
 
         } catch (SQLException e) {
             request.setAttribute("message", "Erreur lors de la recherche : " + e.getMessage());
-        }
+        }*/
 
         // Retourner vers la page JSP
-        request.getRequestDispatcher("listeCours").forward(request, response);
+        request.getRequestDispatcher("/listeCours").forward(request, response);
     }
 
 }

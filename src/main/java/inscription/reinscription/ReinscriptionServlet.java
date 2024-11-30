@@ -1,27 +1,27 @@
 package inscription.reinscription;
 
-import admin.ExecuteSchema;
+import dao.EtudiantDAO;
+import dao.InscriptionAnneeDAO;
+import dao.InscriptionCoursDAO;
+import dao.UtilisateurDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import modele.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @WebServlet(name = "MettreAJourEtudiant", value = "/mettreAJourEtudiant")
-public class MettreAJourEtudiant extends HttpServlet {
+public class ReinscriptionServlet extends HttpServlet {
 
     // Configuration de la base de données
-    private static final String DB_URL = ExecuteSchema.getDbUrl() + "/jee_projet";
+
+   /* private static final String DB_URL = ExecuteSchema.getDbUrl() + "/jee_projet";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
-
+*/
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Charge la vue (formulaire d'inscription) sans afficher l'URL JSP
@@ -30,37 +30,74 @@ public class MettreAJourEtudiant extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         // Récupération des paramètres
         String idEtudiant = request.getParameter("id_etudiant");
+        EtudiantDAO etudiantDAO=new EtudiantDAO();
+
+
+
+        InscriptionAnnee inscriptionAnnee=new InscriptionAnnee();
+        InscriptionAnneeDAO inscriptionAnneeDAO=new InscriptionAnneeDAO();
+
+        Utilisateur utilisateur = null;
+        Etudiant etudiant= null;
+
+        InscriptionAnnee inscription = inscriptionAnneeDAO.getInscriptionByEtudiantId(Integer.parseInt(idEtudiant));
+
+        if (inscription == null) {
+            etudiant = etudiantDAO.getEtudiantById(Integer.parseInt(idEtudiant));
+            if (etudiant == null) {
+                request.setAttribute("message", "L'étudiant avec cet ID n'existe pas.");
+                request.getRequestDispatcher("reinscription.jsp").forward(request, response);
+                return;
+            }
+            utilisateur = etudiant.getUtilisateur();
+        } else {
+            request.setAttribute("message", "L'étudiant est déjà inscrit.");
+            request.getRequestDispatcher("reinscription.jsp").forward(request, response);
+            return;
+        }
+
+
+
+
         String numeroAdresse = request.getParameter("numero_adresse");
         String adresse = request.getParameter("adresse");
         String codePostal = request.getParameter("code_postal");
         String commune = request.getParameter("commune");
-        String email = request.getParameter("email");
-        String contact = request.getParameter("contact");
-        String classe = request.getParameter("classe");
-        String filiere = request.getParameter("filiere");
-
-        // Validation de l'ID étudiant
-        if (idEtudiant == null || idEtudiant.isEmpty() || !idEtudiant.matches("\\d+")) {
-            request.setAttribute("message", "L'identifiant étudiant doit être un entier positif.");
-            request.getRequestDispatcher("reinscription.jsp").forward(request, response);
-            return;
-        }
-
-        // Validation des autres champs obligatoires
-        if (numeroAdresse == null || adresse == null || codePostal == null || commune == null || email == null
-                || contact == null || classe == null || filiere == null ||
-                numeroAdresse.isEmpty() || adresse.isEmpty() || codePostal.isEmpty() || commune.isEmpty() ||
-                email.isEmpty() || contact.isEmpty() || classe.isEmpty() || filiere.isEmpty()) {
-            request.setAttribute("message", "Tous les champs sont obligatoires.");
-            request.getRequestDispatcher("reinscription.jsp").forward(request, response);
-            return;
-        }
-
         // Construction de l'adresse complète
-        String adresseComplete = numeroAdresse + " " + adresse + ", " + codePostal + ", " + commune;
 
+        String adresseComplete = numeroAdresse + " " + adresse + ", " + codePostal + ", " + commune;
+        utilisateur.setAdresse(adresseComplete);
+
+
+        utilisateur.setEmail( request.getParameter("email"));
+        etudiant.setContact( request.getParameter("contact"));
+        etudiant.setClasse(Classe.valueOf(request.getParameter("classe")));
+        etudiant.setFiliere(Filiere.valueOf(request.getParameter("filiere")));
+        etudiant.setUtilisateur(utilisateur);
+
+
+        inscriptionAnnee.setEtudiant(etudiant);
+
+
+        try {
+
+            etudiantDAO.saveEtudiant(etudiant); // Met à jour les informations de l'étudiant
+            inscriptionAnneeDAO.saveInscription(inscriptionAnnee);
+
+
+            request.setAttribute("message", "Les informations de l'étudiant ont été mises à jour avec succès.");
+            request.getRequestDispatcher("reinscription.jsp").forward(request, response); // Redirigez vers une page de confirmation
+        } catch (Exception e) {
+            request.setAttribute("message", "Erreur lors de la mise à jour des informations : " + e.getMessage());
+            request.getRequestDispatcher("reinscription.jsp").forward(request, response); // Retournez au formulaire avec un message d'erreur
+        }
+
+
+        /*
         // Requête SQL pour vérifier si l'étudiant est déjà inscrit
         String sqlCheckInscription = "SELECT COUNT(*) FROM inscriptions_annee WHERE id_etudiant = ?";
 
@@ -117,9 +154,8 @@ public class MettreAJourEtudiant extends HttpServlet {
         } catch (SQLException e) {
             // Gestion des erreurs SQL
             request.setAttribute("message", "Erreur lors de la mise à jour : " + e.getMessage());
-        }
+        }*/
 
-        // Redirection vers la page d'inscription
-        request.getRequestDispatcher("reinscription.jsp").forward(request, response);
+
     }
 }
