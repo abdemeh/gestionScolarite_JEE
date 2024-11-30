@@ -15,9 +15,9 @@ import java.sql.SQLException;
 @WebServlet(name = "SupprimerProfesseurServlet1", value = "/supprimerProfesseur1")
 public class SupprimerProfesseurServlet extends HttpServlet {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_project";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "1234";
+    private static final String DB_PASSWORD = "root";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, IOException {

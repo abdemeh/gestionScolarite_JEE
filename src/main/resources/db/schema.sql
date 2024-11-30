@@ -1,9 +1,9 @@
     -- Supprimer la base de données si elle existe
-    DROP DATABASE IF EXISTS jee_projet;
+    DROP DATABASE IF EXISTS jee_project;
 
     -- Créer la base de données et utiliser la nouvelle base
-    CREATE DATABASE jee_projet CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-    USE jee_projet;
+    CREATE DATABASE jee_project CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+    USE jee_project;
 
     -- Table des rôles
     CREATE TABLE roles (

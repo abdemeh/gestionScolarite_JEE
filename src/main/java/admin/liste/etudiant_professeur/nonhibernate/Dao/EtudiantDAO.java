@@ -11,7 +11,7 @@ import java.util.List;
 // DAO pour gérer les opérations liées à l'entité Etudiant
 public class EtudiantDAO {
 
-    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_projet";
+    private static final String DB_URL = ExecuteSchema.getDbUrl()+ "/jee_project";
     private static final String DB_USER = ExecuteSchema.getDbUser(); // Modifier si nécessaire
     private static final String DB_PASSWORD = ExecuteSchema.getDbPassword(); // Modifier si nécessaire
 

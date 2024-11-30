@@ -16,9 +16,9 @@ import java.util.List;
 @WebServlet(name = "ListeEtudiantsServlet1", value = "/listeEtudiants1")
 public class ListeEtudiantsServlet extends HttpServlet {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_projet";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/jee_project";
     private static final String DB_USER = "root"; // Modifier si nécessaire
-    private static final String DB_PASSWORD = "1234"; // Modifier si nécessaire
+    private static final String DB_PASSWORD = "root"; // Modifier si nécessaire
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

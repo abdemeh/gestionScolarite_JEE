@@ -9,7 +9,7 @@ import java.util.List;
 
 public class EtudiantDAO {
 
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("jee_projet");
+    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("jee_project");
     private static EntityManager entityManager = entityManagerFactory.createEntityManager();
 
     // Récupérer tous les étudiants

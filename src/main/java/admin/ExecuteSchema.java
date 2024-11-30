@@ -15,7 +15,7 @@ public class ExecuteSchema {
     // Configuration de la base de données
     private static final String DB_URL = "jdbc:mysql://localhost:3306";
     private static final String DB_USER = "root"; // à personnaliser
-    private static final String DB_PASSWORD = "1234"; // à personnaliser
+    private static final String DB_PASSWORD = "root"; // à personnaliser
     private static final String SCHEMA_FILE = "/db/schema.sql"; // Chemin relatif dans le classpath
 
     /**
