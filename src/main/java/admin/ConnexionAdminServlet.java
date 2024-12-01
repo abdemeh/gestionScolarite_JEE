@@ -28,7 +28,7 @@ public class ConnexionAdminServlet extends HttpServlet {
 
         if (ADMIN_ID.equals(idAdmin) && ADMIN_PASSWORD.equals(motDePasse)) {
             // Connexion réussie
-            response.sendRedirect(request.getContextPath() + "/admin/pageAdmin.jsp");
+            request.getRequestDispatcher("/admin/pageAdmin.jsp").forward(request, response);;
         } else {
             // Connexion échouée
             request.setAttribute("message", "ID ou mot de passe incorrect.");
