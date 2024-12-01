@@ -81,7 +81,7 @@
     <form action="listeResultats" method="post" class="login-form">
         <div class="form-container">
             <div class="form-column">
-                <label for="email_enseignant">Identifiant Enseignant :</label>
+                <label for="email_enseignant">Email :</label>
                 <input type="email" id="email_enseignant" name="email_enseignant" required /><br />
 
                 <label for="mot_de_passe">Mot de passe :</label>
