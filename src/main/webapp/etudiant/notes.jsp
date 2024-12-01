@@ -51,7 +51,7 @@
 <!-- Main Content -->
 <main>
     <header class="page-header">
-        <h1>Liste des Notes</h1>
+        <h1>Bienvenue étudiant!</h1>
     </header>
 
     <!-- Course Registration Table -->
@@ -103,8 +103,13 @@
             <tbody>
             <%
                 List<Note> notes = (List<Note>) request.getAttribute("notes");
+                java.math.BigDecimal totalNotes = java.math.BigDecimal.ZERO; // Initialize BigDecimal for total
+                int noteCount = 0;
+
                 if (notes != null && !notes.isEmpty()) {
                     for (Note note : notes) {
+                        totalNotes = totalNotes.add(note.getNote()); // Use BigDecimal's add method
+                        noteCount++;
             %>
             <tr>
                 <td><%= note.getCours().getNomCours() %></td>
@@ -119,9 +124,26 @@
             </tr>
             <%
                 }
+                // Calculate average
+                java.math.BigDecimal average = (noteCount > 0) ? totalNotes.divide(java.math.BigDecimal.valueOf(noteCount), 2, java.math.RoundingMode.HALF_UP) : java.math.BigDecimal.ZERO;
             %>
             </tbody>
         </table>
+
+        <%-- Display the average below the table --%>
+        <%
+            if (noteCount > 0) {
+        %>
+        <h2>Résultat :</h2>
+        <div class="average-result">
+            <p><strong>Moyenne des notes :</strong> <%= average.toString() %>/20</p>
+        </div>
+        <%
+            }
+        %>
+
+    </div>
+
     </div>
 </main>
 
