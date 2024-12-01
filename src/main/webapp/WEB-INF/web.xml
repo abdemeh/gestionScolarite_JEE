@@ -28,27 +28,16 @@
         <url-pattern>/creer_enseignant</url-pattern>
     </servlet-mapping>
 
-
     <servlet>
-        <servlet-name>Creer_Matiere</servlet-name>
-        <servlet-class>inscription.servletpourlinscription.CreerMatiere</servlet-class>
+        <servlet-name>ListeResultatsServlet</servlet-name>
+        <servlet-class>accespageprof.ListeResultatsServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>Creer_Matiere</servlet-name>
-        <url-pattern>/creer_matiere</url-pattern>
+        <servlet-name>ListeResultatsServlet</servlet-name>
+        <url-pattern>/listeResultats</url-pattern>
     </servlet-mapping>
 
 
-
-    <servlet>
-        <servlet-name>AttribuerCoursServlet</servlet-name>
-        <servlet-class>admin.attribution_cours.pourprof.AttribuerCoursServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AttribuerCoursServlet</servlet-name>
-        <url-pattern>/attribuerCours</url-pattern>
-    </servlet-mapping>
 
 
     <welcome-file-list>

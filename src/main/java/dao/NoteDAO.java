@@ -97,6 +97,28 @@ public class NoteDAO {
     }
 
 
+    public Note getNoteByCoursAndEtudiant(int idCours, int idEtudiant) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery(
+                            "SELECT n FROM Note n " +
+                                    "JOIN n.cours c " +
+                                    "JOIN n.etudiant e " +
+                                    "WHERE c.idCours = :idCours " +
+                                    "AND e.idEtudiant = :idEtudiant",
+                            Note.class
+                    )
+                    .setParameter("idCours", idCours)
+                    .setParameter("idEtudiant", idEtudiant)
+                    .uniqueResult(); // Retourne une seule note ou null si aucune correspondance
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération de la note pour le cours avec l'ID " + idCours +
+                    " et l'étudiant avec l'ID " + idEtudiant + ": " + e.getMessage());
+            return null;
+        }
+    }
+
+
+
     // Supprimer une note
     public void deleteNoteById(int id) {
         Transaction transaction = null;

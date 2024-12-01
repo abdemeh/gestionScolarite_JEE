@@ -102,7 +102,7 @@
     -- Insérer des utilisateurs
     INSERT INTO utilisateurs (nom, prenom, adresse, email, mot_de_passe, id_role)
     VALUES
-        ('Admin', 'User', '1 Rue de l\'Admin, 75001, Paris', 'admin@domain.com', 'password123', 1),
+        ('admin', 'User', '1 Rue de l\'Admin, 75001, Paris', 'admin@domain.com', 'password123', 1),
         ('John', 'Doe', '5 Rue de l\'Enseignant, 75002, Paris', 'john.doe@domain.com', 'password123', 2),
         ('Jane', 'Smith', '10 Rue de l\'Étudiant, 75003, Paris', 'jane.smith@domain.com', 'password123', 3);
 
