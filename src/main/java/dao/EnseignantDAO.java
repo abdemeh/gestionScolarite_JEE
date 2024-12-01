@@ -56,6 +56,16 @@ public class EnseignantDAO {
         }
     }
 
+    public Enseignant getProfesseurByEmail(String email) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Enseignant e WHERE e.utilisateur.email = :email", Enseignant.class)
+                    .setParameter("email", email)
+                    .uniqueResult();
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération du professeur par email : " + e.getMessage());
+            return null;
+        }
+    }
 
     public List<Enseignant> rechercherProfesseurs(String search) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

@@ -81,8 +81,8 @@
     <form action="listeResultats" method="post" class="login-form">
         <div class="form-container">
             <div class="form-column">
-                <label for="id_enseignant">Identifiant Enseignant :</label>
-                <input type="text" id="id_enseignant" name="id_enseignant" required /><br />
+                <label for="email_enseignant">Identifiant Enseignant :</label>
+                <input type="email" id="email_enseignant" name="email_enseignant" required /><br />
 
                 <label for="mot_de_passe">Mot de passe :</label>
                 <input type="password" name="mot_de_passe" id="mot_de_passe" required /><br />
@@ -93,15 +93,11 @@
         </div>
     </form>
     <br>
-    <!-- Error Message -->
     <%
-        if (request.getAttribute("message") != null) {
+        String errorMessage = (String) request.getAttribute("error");
+        if (errorMessage != null) {
     %>
-    <br>
-    <div class="error-message">
-        <%= request.getAttribute("message") %>
-    </div>
-    <br>
+    <div class="error-message"><%= errorMessage %></div>
     <%
         }
     %>
