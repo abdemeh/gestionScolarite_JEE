@@ -147,6 +147,9 @@
             %>
             </tbody>
         </table>
+        <form action="<%= request.getContextPath() %>/telechargerEtudiantsCSV" method="get">
+            <button type="submit">Télécharger la liste des étudiants (CSV)</button>
+        </form>
     </div>
     <footer>
         <p>© 2024 - Gestion Scolaire</p>

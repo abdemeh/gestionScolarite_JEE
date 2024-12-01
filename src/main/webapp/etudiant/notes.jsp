@@ -151,7 +151,9 @@
         <%
             }
         %>
-
+        <form action="<%= request.getContextPath() %>/telechargerReleveNotes" method="get">
+            <button type="submit" class="download-button">Télécharger relevé de notes</button>
+        </form>
     </div>
 
     </div>
