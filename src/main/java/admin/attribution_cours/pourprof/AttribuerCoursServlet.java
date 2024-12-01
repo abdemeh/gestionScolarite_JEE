@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import modele.Cours;
+import modele.Enseignant;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -57,16 +58,29 @@ public class AttribuerCoursServlet extends HttpServlet {
             idProfesseur = Integer.parseInt(idProfesseurStr);
         } catch (NumberFormatException e) {
             request.setAttribute("message", "ID professeur invalide.");
-            request.getRequestDispatcher("admin/attribution_cours_au_prof_par_admin.jsp").forward(request, response);
+            request.getRequestDispatcher("listeCours").forward(request, response);
             return;
         }
 
-        CoursDAO coursDAO=new CoursDAO();
-        Cours cours=new Cours();
-        cours.setNomCours(nomCours);
-        cours.setDescription(description);
-        cours.setEnseignant(new EnseignantDAO().getProfesseurById(Integer.parseInt(idProfesseurStr)));
-        coursDAO.saveCours(cours);
+
+        CoursDAO coursDAO = new CoursDAO();
+        Cours cours = new Cours();
+       Enseignant enseignant= coursDAO.getEnseignantByNomCoursAndProfesseur(nomCours, idProfesseur);
+
+
+        if (enseignant==null){
+
+            cours.setNomCours(nomCours);
+            cours.setDescription(description);
+            cours.setEnseignant(new EnseignantDAO().getProfesseurById(Integer.parseInt(idProfesseurStr)));
+            coursDAO.saveCours(cours);
+
+    }else {
+
+            request.setAttribute("message", "enseigne deja.");
+            request.getRequestDispatcher("listeCours").forward(request, response);
+
+        }
 
         response.sendRedirect("listeCours");
 

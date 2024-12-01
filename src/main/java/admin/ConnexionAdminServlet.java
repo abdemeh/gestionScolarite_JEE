@@ -1,5 +1,6 @@
 package admin;
 
+import dao.UtilisateurDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,8 +12,8 @@ import java.io.IOException;
 @WebServlet(name = "ConnexionAdminServlet", urlPatterns = "/connexionAdmin")
 public class ConnexionAdminServlet extends HttpServlet {
 
-    private static final String ADMIN_ID = "admin"; // Remplacez par un ID réel
-    private static final String ADMIN_PASSWORD = "password123"; // Remplacez par un mot de passe réel
+    private static final String ADMIN_ID = new UtilisateurDAO().getUtilisateurById(1).getNom(); // Remplacez par un ID réel
+    private static final String ADMIN_PASSWORD = new UtilisateurDAO().getUtilisateurById(1).getMotDePasse(); // Remplacez par un mot de passe réel
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

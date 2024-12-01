@@ -89,15 +89,20 @@ public class InscrireCoursServlet extends HttpServlet {
             InscriptionCoursDAO inscriptionCoursDAO = new InscriptionCoursDAO();
             inscriptionCoursDAO.saveInscription(inscriptionCours);
 
-            // Create and save Note
-            Note note = new Note();
-            note.setEtudiant(etudiant);
-            note.setCours(cours);
-            note.setNote(BigDecimal.ZERO);
-
             NoteDAO noteDAO = new NoteDAO();
-            noteDAO.saveNote(note);
 
+
+            if(noteDAO.getNoteByCoursAndEtudiant(idCours,idEtudiant)==null){
+            // Create and save Note
+                Note note = new Note();
+
+                note.setEtudiant(etudiant);
+                note.setCours(cours);
+                note.setNote(BigDecimal.ZERO);
+
+
+                noteDAO.saveNote(note);
+}
             // Redirect to success page
             response.sendRedirect("listeInscriptions"); // Ensure this is not after response content is written
         } catch (IllegalArgumentException e) {

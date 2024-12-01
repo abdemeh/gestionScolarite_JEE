@@ -2,6 +2,7 @@ package dao;
 
 
 import modele.Cours;
+import modele.Enseignant;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -29,6 +30,25 @@ public class CoursDAO {
             return null;
         }
     }
+
+    public Enseignant getEnseignantByNomCoursAndProfesseur(String nomCours, int idProfesseur) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery(
+                            "SELECT c.enseignant FROM Cours c " +
+                                    "WHERE c.nomCours = :nomCours AND c.enseignant.idEnseignant = :idProfesseur",
+                            Enseignant.class
+                    )
+                    .setParameter("nomCours", nomCours)
+                    .setParameter("idProfesseur", idProfesseur)
+                    .uniqueResult(); // Retourne l'enseignant ou null si aucun cours ne correspond
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération de l'enseignant : " + e.getMessage());
+            return null;
+        }
+    }
+
+
+
 
     public List<Cours> getAllCours() {
         try (Session session = sessionFactory.openSession()) {
