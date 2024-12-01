@@ -62,6 +62,8 @@ public class ListeResultatsServlet extends HttpServlet {
 
         if (enseignant != null && enseignant.getUtilisateur().getMotDePasse().equals(motDePasse)) {
             // Authentification réussie
+            request.getSession().setAttribute("user", "prof");
+            request.getSession().setAttribute("id_professeur", enseignant.getIdEnseignant());
             NoteDAO noteDAO = new NoteDAO();
             List<Note> resultats = noteDAO.getNotesByEnseignant(enseignant.getIdEnseignant());
 
