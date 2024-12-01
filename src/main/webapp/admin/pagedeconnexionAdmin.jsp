@@ -82,8 +82,8 @@
         <form action="connexionAdmin" method="post" class="login-form">
             <div class="form-container">
                 <div class="form-column">
-                    <label for="id_admin">Identifiant :</label>
-                    <input type="text" id="id_admin" name="id_admin" required />
+                    <label for="email_admin">Email :</label>
+                    <input type="email" id="email_admin" name="email_admin" required />
 
                     <label for="mot_de_passe">Mot de Passe :</label>
                     <input type="password" name="mot_de_passe" id="mot_de_passe" required />

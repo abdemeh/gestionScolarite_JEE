@@ -12,9 +12,6 @@ import java.io.IOException;
 @WebServlet(name = "ConnexionAdminServlet", urlPatterns = "/connexionAdmin")
 public class ConnexionAdminServlet extends HttpServlet {
 
-    private static final String ADMIN_ID = new UtilisateurDAO().getUtilisateurById(1).getNom(); // Remplacez par un ID réel
-    private static final String ADMIN_PASSWORD = new UtilisateurDAO().getUtilisateurById(1).getMotDePasse(); // Remplacez par un mot de passe réel
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Redirige vers la page de connexion
@@ -23,18 +20,23 @@ public class ConnexionAdminServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idAdmin = request.getParameter("id_admin");
+        String emailAdmin = request.getParameter("email_admin");
         String motDePasse = request.getParameter("mot_de_passe");
 
-        if (ADMIN_ID.equals(idAdmin) && ADMIN_PASSWORD.equals(motDePasse)) {
+        String ADMIN_EMAIL = new UtilisateurDAO().getUtilisateurByEmail(emailAdmin).getEmail();
+        String ADMIN_PASSWORD = new UtilisateurDAO().getUtilisateurByEmail(emailAdmin).getMotDePasse();
+        int ADMIN_ROLE = new UtilisateurDAO().getUtilisateurByEmail(emailAdmin).getRole();
+        int ADMIN_ID = new UtilisateurDAO().getUtilisateurByEmail(emailAdmin).getIdUtilisateur();
+
+        if (ADMIN_EMAIL.equals(emailAdmin) && ADMIN_PASSWORD.equals(motDePasse) && ADMIN_ROLE==1) {
             // Connexion réussie
             request.getSession().setAttribute("user", "admin");
-            request.getSession().setAttribute("id_admin", 1);
+            request.getSession().setAttribute("id_admin", ADMIN_ID);
 
             request.getRequestDispatcher("/admin/pageAdmin.jsp").forward(request, response);
         } else {
             // Connexion échouée
-            request.setAttribute("message", "ID ou mot de passe incorrect.");
+            request.setAttribute("message", "Email ou mot de passe incorrect.");
             request.getRequestDispatcher("/admin/pagedeconnexionAdmin.jsp").forward(request, response);
         }
     }

@@ -50,6 +50,11 @@ public class Utilisateur implements Serializable {
         this.nom = nom;
     }
 
+    public Integer getRole() {
+        return idRole;
+    }
+
+
     public String getPrenom() {
         return prenom;
     }
