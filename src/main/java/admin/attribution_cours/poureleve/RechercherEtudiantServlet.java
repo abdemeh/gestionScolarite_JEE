@@ -48,13 +48,10 @@ public class RechercherEtudiantServlet extends HttpServlet {
             // Vérifier si le critère correspond à l'ID, au prénom ou au nom
             if (etudiant.getIdEtudiant() == Integer.parseInt((searchEtudiant))) {
                 Pourelevestat.etudiantparticulier=etudiant;
+                request.setAttribute("etudiants", etudiants);
+            }else{
+                request.setAttribute("message", "Aucun étudiant trouvé correspondant au critère.");
             }
-        }
-
-        if (etudiants==null) {
-            request.setAttribute("message", "Aucun étudiant trouvé correspondant au critère.");
-        } else {
-            request.setAttribute("etudiants", etudiants);
         }
 
         request.getRequestDispatcher("listeInscriptions").forward(request, response);
