@@ -70,7 +70,16 @@
     <header>
         <h1>Liste des Professeurs</h1>
     </header>
+
+    <!-- Professors Table -->
     <div class="container">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <form action="<%= request.getContextPath() %>/listeProfesseurs" method="get">
+                <input style="width: 88%;" type="text" name="searchQuery" placeholder="Rechercher par Nom, Prénom, Adresse, Email ou Spécialité" value="<%= request.getParameter("searchQuery") != null ? request.getParameter("searchQuery") : "" %>">
+                <button type="submit">Rechercher</button>
+            </form>
+        </div>
         <table>
             <thead>
             <tr>
@@ -87,8 +96,20 @@
             <tbody>
             <%
                 List<Enseignant> professeurs = (List<Enseignant>) request.getAttribute("professeurs");
+                String searchQuery = request.getParameter("searchQuery");
+
                 if (professeurs != null && !professeurs.isEmpty()) {
+                    boolean hasResults = false; // Flag to check if there are matching results
                     for (Enseignant professeur : professeurs) {
+                        boolean matchesSearch = searchQuery == null || searchQuery.isEmpty() ||
+                                professeur.getUtilisateur().getNom().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                professeur.getUtilisateur().getPrenom().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                professeur.getUtilisateur().getAdresse().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                professeur.getUtilisateur().getEmail().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                professeur.getSpecialite().toLowerCase().contains(searchQuery.toLowerCase());
+
+                        if (matchesSearch) {
+                            hasResults = true;
             %>
             <tr>
                 <td><%= professeur.getIdEnseignant() %></td>
@@ -101,6 +122,15 @@
                 <td>
                     <a href="supprimerProfesseur?id=<%= professeur.getIdEnseignant() %>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce professeur ?')">Supprimer</a>
                 </td>
+            </tr>
+            <%
+                    }
+                }
+
+                if (!hasResults) {
+            %>
+            <tr>
+                <td colspan="8">Aucun professeur ne correspond à votre recherche.</td>
             </tr>
             <%
                 }
@@ -119,5 +149,6 @@
         <p>© 2024 - Gestion Scolaire</p>
     </footer>
 </main>
+
 </body>
 </html>

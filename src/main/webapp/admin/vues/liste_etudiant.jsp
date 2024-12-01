@@ -69,7 +69,16 @@
     <header>
         <h1>Liste des Étudiants</h1>
     </header>
+
+    <!-- Students Table -->
     <div class="container">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <form action="<%= request.getContextPath() %>/listeEtudiants" method="get">
+                <input style="width: 88%;" type="text" name="searchQuery" placeholder="Rechercher par Nom, Prénom, Adresse, Email, Classe ou Filière" value="<%= request.getParameter("searchQuery") != null ? request.getParameter("searchQuery") : "" %>">
+                <button type="submit">Rechercher</button>
+            </form>
+        </div>
         <table>
             <thead>
             <tr>
@@ -87,8 +96,21 @@
             <tbody>
             <%
                 List<Etudiant> etudiants = (List<Etudiant>) request.getAttribute("etudiantList");
+                String searchQuery = request.getParameter("searchQuery");
+
                 if (etudiants != null && !etudiants.isEmpty()) {
+                    boolean hasResults = false; // Flag to check if there are matching results
                     for (Etudiant etudiant : etudiants) {
+                        boolean matchesSearch = searchQuery == null || searchQuery.isEmpty() ||
+                                etudiant.getUtilisateur().getNom().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                etudiant.getUtilisateur().getPrenom().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                etudiant.getUtilisateur().getAdresse().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                etudiant.getUtilisateur().getEmail().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                etudiant.getClasse().toString().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                etudiant.getFiliere().toString().toLowerCase().contains(searchQuery.toLowerCase());
+
+                        if (matchesSearch) {
+                            hasResults = true;
             %>
             <tr>
                 <td><%= etudiant.getIdEtudiant() %></td>
@@ -103,6 +125,15 @@
                     <a href="<%= request.getContextPath() %>/supprimerEtudiant?id=<%= etudiant.getIdEtudiant() %>"
                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant ?')">Supprimer</a>
                 </td>
+            </tr>
+            <%
+                    }
+                }
+
+                if (!hasResults) {
+            %>
+            <tr>
+                <td colspan="9">Aucun étudiant ne correspond à votre recherche.</td>
             </tr>
             <%
                 }
@@ -121,5 +152,6 @@
         <p>© 2024 - Gestion Scolaire</p>
     </footer>
 </main>
+
 </body>
 </html>
