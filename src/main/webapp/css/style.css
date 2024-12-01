@@ -114,13 +114,13 @@ select {
     padding: 10px 15px;
     margin-bottom: 15px;
     border: 1px solid var(--line-clr);
-    border-radius: 5px;
     background: transparent;
     color: var(--text-clr);
     font-size: 1rem;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 25px;
 }
 option {
     background-color: var(--base-clr);
@@ -246,7 +246,7 @@ main p{
     width: 90%;
     padding: 10px;
     margin-bottom: 15px;
-    border-radius: 5px;
+    border-radius: 25px;
 }
 
 .submit-container {
@@ -355,6 +355,9 @@ p {
     animation: fadeIn 2s ease-in-out;
     font-style: italic;
     color: #f65353;
+}
+td > a{
+    color: var(--accent-clr);
 }
 @media(max-width: 800px){
     body{
