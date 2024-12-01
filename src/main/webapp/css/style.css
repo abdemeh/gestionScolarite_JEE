@@ -347,14 +347,22 @@ p {
     line-height: 1.5;
 }
 .error-message {
-    color: var(--accent-clr);
     font-size: 16px;
     z-index: 1000;
-    max-width: 400px;
+    max-width: 500px;
     text-align: left;
     animation: fadeIn 2s ease-in-out;
     font-style: italic;
     color: #f65353;
+}
+.success-message{
+    font-size: 16px;
+    z-index: 1000;
+    max-width: 500px;
+    text-align: left;
+    animation: fadeIn 2s ease-in-out;
+    font-style: italic;
+    color: #2fb522;
 }
 td > a{
     color: var(--accent-clr);

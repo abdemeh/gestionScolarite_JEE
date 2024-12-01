@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import modele.Note;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -23,93 +24,68 @@ public class ModifierNotesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-
-
         String[] idResultats = request.getParameterValues("id_resultat");
         List<Integer> idResultatsList = new ArrayList<>();
         List<BigDecimal> nouvellesNotesList = new ArrayList<>();
+
+        boolean hasInvalidNotes = false;
+
+        // Validate notes
         for (String id : idResultats) {
             String noteParam = "note_" + id;
             String noteValue = request.getParameter(noteParam);
 
             if (noteValue != null && !noteValue.isEmpty()) {
-                idResultatsList.add(Integer.parseInt(id));
-                nouvellesNotesList.add(new BigDecimal(noteValue));
+                BigDecimal note = new BigDecimal(noteValue);
+
+                // Check if the note is out of range
+                if (note.compareTo(BigDecimal.ZERO) < 0 || note.compareTo(BigDecimal.valueOf(20)) > 0) {
+                    hasInvalidNotes = true;
+                    break; // Stop processing further notes
+                } else {
+                    idResultatsList.add(Integer.parseInt(id));
+                    nouvellesNotesList.add(note);
+                }
             }
         }
 
+        // If invalid notes are found, return with an error message
+        if (hasInvalidNotes) {
+            request.setAttribute("errorMessage", "Toutes les notes doivent être comprises entre 0 et 20.");
 
-        NoteDAO noteDAO = new NoteDAO();
-        noteDAO.updateNotes(idResultatsList, nouvellesNotesList);
-        response.sendRedirect("listeResultats");
+            // Fetch current notes to repopulate the table
+            HttpSession session = request.getSession();
+            Integer idProfesseur = (Integer) session.getAttribute("id_professeur");
+            if (idProfesseur != null) {
+                NoteDAO noteDAO = new NoteDAO();
+                List<Note> resultats = noteDAO.getNotesByEnseignant(idProfesseur);
+                request.setAttribute("resultats", resultats);
+            }
 
-
-/*
-        if (idResultats == null || idResultats.length == 0 || idProfesseur == null || idProfesseur.isEmpty()) {
-            request.setAttribute("message", "Aucune note ou ID professeur fourni pour la mise à jour.");
-            request.getRequestDispatcher("gestion_notes.jsp").forward(request, response);
+            // Forward back to the JSP with error message
+            request.getRequestDispatcher("/prof/gestion_notes.jsp").forward(request, response);
             return;
         }
 
-        String sqlUpdate = "UPDATE resultats SET note = ? WHERE id_resultat = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            conn.setAutoCommit(false); // Démarrer une transaction pour la mise à jour des notes
+        // Update notes in the database if all validations pass
+        NoteDAO noteDAO = new NoteDAO();
+        noteDAO.updateNotes(idResultatsList, nouvellesNotesList);
 
-            try (PreparedStatement stmt = conn.prepareStatement(sqlUpdate)) {
-                for (String idResultat : idResultats) {
-                    String noteParam = "note_" + idResultat;
-                    String noteValue = request.getParameter(noteParam);
-
-                    if (noteValue != null && !noteValue.isEmpty()) {
-                        stmt.setBigDecimal(1, new BigDecimal(noteValue));
-                        stmt.setInt(2, Integer.parseInt(idResultat));
-                        stmt.executeUpdate();
-                    }
-                }
-
-                conn.commit(); // Valider les modifications
-                request.setAttribute("message", "Les notes ont été mises à jour avec succès.");
-            } catch (SQLException e) {
-                conn.rollback(); // Annuler la transaction en cas d'erreur
-                request.setAttribute("message", "Erreur lors de la mise à jour des notes : " + e.getMessage());
-            }
-        } catch (SQLException e) {
-            throw new ServletException("Erreur lors de la connexion à la base de données.", e);
+        // Fetch updated results for the professor
+        HttpSession session = request.getSession();
+        Integer idProfesseur = (Integer) session.getAttribute("id_professeur");
+        if (idProfesseur != null) {
+            List<Note> resultats = noteDAO.getNotesByEnseignant(idProfesseur);
+            request.setAttribute("resultats", resultats);
         }
 
-        // Charger les résultats mis à jour pour le professeur
-        String sqlResultats = "SELECT r.id_resultat, e.id_etudiant, u.nom, u.prenom, c.nom_cours, r.note " +
-                "FROM resultats r " +
-                "JOIN etudiants e ON r.id_etudiant = e.id_etudiant " +
-                "JOIN utilisateurs u ON e.id_utilisateur = u.id_utilisateur " +
-                "JOIN cours c ON r.id_cours = c.id_cours " +
-                "WHERE c.id_enseignant = ?";
+        // Set success message
+        request.setAttribute("message", "Les notes sont enregistrées.");
 
-        List<Map<String, String>> resultats = new ArrayList<>();
-
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement stmtResultats = conn.prepareStatement(sqlResultats)) {
-
-            stmtResultats.setInt(1, Integer.parseInt(idProfesseur));
-
-            try (ResultSet rs = stmtResultats.executeQuery()) {
-                while (rs.next()) {
-                    Map<String, String> resultat = new HashMap<>();
-                    resultat.put("id_resultat", rs.getString("id_resultat"));
-                    resultat.put("id_etudiant", rs.getString("id_etudiant"));
-                    resultat.put("nom", rs.getString("nom"));
-                    resultat.put("prenom", rs.getString("prenom"));
-                    resultat.put("nom_cours", rs.getString("nom_cours"));
-                    resultat.put("note", rs.getString("note"));
-                    resultats.add(resultat);
-                }
-            }
-        } catch (SQLException e) {
-            request.setAttribute("message", "Erreur lors de la récupération des résultats mis à jour : " + e.getMessage());
-        }*/
-
-
+        // Forward back to the JSP
+        request.getRequestDispatcher("/prof/gestion_notes.jsp").forward(request, response);
     }
+
+
+
 }
