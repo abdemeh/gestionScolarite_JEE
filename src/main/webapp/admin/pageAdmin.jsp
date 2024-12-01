@@ -13,7 +13,7 @@
 <nav id="sidebar">
     <ul>
         <li>
-            <span class="logo">CY Scolarité</span>
+            <span class="logo"><img src="<%= request.getContextPath() %>/images/logo.png" height="36px" alt="myCY Scolarité"></span>
             <button onclick="toggleSidebar()" id="toggle-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                     <path d="m313-480 155 156q11 11 11.5 27.5T468-268q-11 11-28 11t-28-11L228-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 27.5-11.5T468-692q11 11 11 28t-11 28L313-480Zm264 0 155 156q11 11 11.5 27.5T732-268q-11 11-28 11t-28-11L492-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 27.5-11.5T732-692q11 11 11 28t-11 28L577-480Z"/>
@@ -52,13 +52,28 @@
 </nav>
 
 <!-- Main Content -->
-<main>
-    <header>
-        <h1>Bienvenue dans le Menu Administratif</h1>
-    </header>
+<main style="background-image: url('<%= request.getContextPath() %>/images/bg-school.jpg');">
     <div class="menu-container">
-        <h2>Que souhaitez-vous faire ?</h2>
+        <h2>Bienvenue à la page admin!</h2>
+        <p>
+            L'interface d'administration de CY Scolarité est conçue pour fournir aux responsables scolaires les outils nécessaires
+            pour gérer efficacement tous les aspects de la vie académique. Du suivi des inscriptions à la gestion des enseignants et des cours,
+            cette interface offre une vue complète et centralisée de toutes les activités administratives.
+        </p>
+        <p>
+            Avec un tableau de bord intuitif et des fonctionnalités avancées, les administrateurs peuvent gérer rapidement les comptes utilisateurs,
+            superviser les notes des étudiants, organiser les plannings des enseignants, et garantir le bon fonctionnement des opérations scolaires.
+        </p>
+        <p>
+            Notre objectif est de simplifier votre quotidien en vous proposant des outils qui améliorent la productivité et la précision, tout en réduisant les tâches manuelles.
+            CY Scolarité permet également une communication transparente avec les étudiants et les professeurs, assurant un environnement académique harmonieux et efficace.
+        </p>
+        <p>
+            Explorez les différentes sections du menu pour accéder aux fonctionnalités clés : gestion des inscriptions, mise à jour des résultats, création de cours,
+            et bien plus encore. Tout ce dont vous avez besoin pour gérer votre établissement se trouve ici, à portée de clic.
+        </p>
     </div>
+
     <footer>
         <p>© 2024 - Gestion Scolaire</p>
     </footer>
