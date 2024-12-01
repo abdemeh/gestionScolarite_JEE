@@ -7,6 +7,14 @@
 <%@ page import="modele.Cours" %>
 <%@ page import="modele.Etudiant" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    // Session verification
+    String userRole = (String) session.getAttribute("user");
+    if (userRole == null || !"admin".equals(userRole)) {
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        return; // Ensure the rest of the page is not processed
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>

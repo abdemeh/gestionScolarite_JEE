@@ -47,6 +47,10 @@ public class LoginController extends HttpServlet {
 
         List<Note> notes=dao.getNotesByEtudiant(Integer.parseInt(idEtudiant));
         List<InscriptionCours> inscriptionCours=inscriptionCoursDAO.getInscriptionsByEtudiant(Integer.parseInt(idEtudiant));
+
+        request.getSession().setAttribute("user", "etudiant");
+        request.getSession().setAttribute("id_etudiant", idEtudiant);
+
         request.setAttribute("notes",notes);
         request.setAttribute("inscriptionCours",inscriptionCours);
 
