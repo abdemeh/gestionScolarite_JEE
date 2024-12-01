@@ -4,6 +4,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="dao.EtudiantDAO" %>
+<%@ page import="modele.Etudiant" %>
 <%
     // Session verification
     String userRole = (String) session.getAttribute("user");
@@ -51,7 +53,15 @@
 <!-- Main Content -->
 <main>
     <header class="page-header">
-        <h1>Bienvenue étudiant!</h1>
+        <%
+            Etudiant e= new EtudiantDAO().getEtudiantById(Integer.valueOf(session.getAttribute("id_etudiant").toString()));
+            String etudiantFullName = e.getUtilisateur().getNom()+" "+e.getUtilisateur().getPrenom();
+            // Si le nom n'existe pas dans la session, afficher un message par défaut
+            if (etudiantFullName == null || etudiantFullName.isEmpty()) {
+                etudiantFullName = "étudiant"; // Valeur par défaut
+            }
+        %>
+        <h1>Bienvenue <%= etudiantFullName %>!</h1>
     </header>
 
     <!-- Course Registration Table -->
