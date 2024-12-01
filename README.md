@@ -53,18 +53,17 @@ The project follows the **MVC (Model-View-Controller)** architecture:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo-link.git
+   git clone https://github.com/abdemeh/gestionScolarite_JEE.git
    ```
 2. Set up the database:
-    - Create a database named `gestion_scolarite`.
     - Import the schema and initial data from the `sql/schema.sql` file.
 
 3. Configure the project:
-    - Update `hibernate.cfg.xml` with your database credentials.
-    - Deploy the project on Apache Tomcat.
+    - Update `hibernate.cfg.xml` with your database credentials (root and password).
+    - Deploy the project on Apache Tomcat (v10.1.33).
 
 4. Run the application:
-    - Access the web application at `http://localhost:8080/your-app-context`.
+    - Access the web application at `http://localhost:8080/projetJEE`.
 
 ## Contributors
 
@@ -92,7 +91,3 @@ The project follows the **MVC (Model-View-Controller)** architecture:
 
 ## Reporting Issues
 For issues or suggestions, please open a GitHub issue in this repository.
-
----
-
-**Note**: The final submission deadline is **30/11/2024, 23:59**. Please ensure all components, including the application and report, are submitted on time to avoid penalties.
