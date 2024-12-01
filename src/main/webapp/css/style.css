@@ -110,7 +110,7 @@ input[type="password"],
 input[type="date"],
 input[type="number"],
 select {
-    width: 100%;
+    width: 90%;
     padding: 10px 15px;
     margin-bottom: 15px;
     border: 1px solid var(--line-clr);
@@ -273,11 +273,11 @@ table th {
     color: var(--text-clr);
     font-weight: 600;
 }
-table tr:hover {
-    background-color: var(--accent-clr);
+/* table tr:hover {
+    /* background-color: var(--accent-clr);
     color: white;
     cursor: pointer;
-}
+}  */
 
 /* Calendar Grid */
 .calendar {
