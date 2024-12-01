@@ -46,7 +46,7 @@ The project follows the **MVC (Model-View-Controller)** architecture:
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Java (J2EE)
 - **Frameworks**: Hibernate, Spring Boot (for advanced version)
-- **Database**: MySQL or PostgreSQL
+- **Database**: MySQL
 - **Server**: Apache Tomcat
 
 ## Installation
