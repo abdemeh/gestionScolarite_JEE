@@ -36,7 +36,7 @@ public class RechercherCoursServlet extends HttpServlet {
 
         if (searchCours == null || searchCours.trim().isEmpty()) {
             request.setAttribute("message", "Veuillez saisir un critère de recherche.");
-            request.getRequestDispatcher("/admin/inscription_eleve_cours_par_admin.jsp").forward(request, response);
+            request.getRequestDispatcher("listeInscriptions").forward(request, response);
             return;
         }
 
@@ -63,7 +63,7 @@ public class RechercherCoursServlet extends HttpServlet {
             // Si aucun cours trouvé
             if (courscherche.isEmpty()) {
                 request.setAttribute("message", "Aucun cours correspondant n'a été trouvé.");
-                request.getRequestDispatcher("/admin/inscription_eleve_cours_par_admin.jsp").forward(request, response);
+                request.getRequestDispatcher("listeInscriptions").forward(request, response);
                 return;
             }
 
@@ -73,7 +73,7 @@ public class RechercherCoursServlet extends HttpServlet {
 
         } catch (Exception e) {
             request.setAttribute("message", "Erreur lors de la recherche : " + e.getMessage());
-            request.getRequestDispatcher("/admin/inscription_eleve_cours_par_admin.jsp").forward(request, response);
+            request.getRequestDispatcher("listeInscriptions").forward(request, response);
         }
 
 

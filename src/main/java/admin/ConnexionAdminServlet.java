@@ -30,7 +30,8 @@ public class ConnexionAdminServlet extends HttpServlet {
             // Connexion réussie
             request.getSession().setAttribute("user", "admin");
             request.getSession().setAttribute("id_admin", 1);
-            response.sendRedirect(request.getContextPath() + "/admin/pageAdmin.jsp");
+
+            request.getRequestDispatcher("/admin/pageAdmin.jsp").forward(request, response);
         } else {
             // Connexion échouée
             request.setAttribute("message", "ID ou mot de passe incorrect.");
