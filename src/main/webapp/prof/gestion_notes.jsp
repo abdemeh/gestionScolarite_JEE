@@ -79,6 +79,14 @@
             </table>
             <button type="submit">Enregistrer les Modifications</button>
         </form>
+        <form action="notifierEtudiants" method="post" style="margin-top: 5px;">
+            <% if (notes != null && !notes.isEmpty()) { %>
+            <% for (Note note : notes) { %>
+            <input type="hidden" name="emails" value="<%= note.getEtudiant().getUtilisateur().getEmail() %>"/>
+            <% } %>
+            <% } %>
+            <button type="submit">Notifier les Étudiants par email</button>
+        </form>
         <%
             // Display success message
             String message = (String) request.getAttribute("message");
