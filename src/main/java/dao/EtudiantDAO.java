@@ -37,6 +37,17 @@ public class EtudiantDAO {
         }
     }
 
+    public Etudiant getEtudiantByEmail(String email) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Etudiant e WHERE e.utilisateur.email = :email", Etudiant.class)
+                    .setParameter("email", email)
+                    .uniqueResult();
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération de l'étudiant par email : " + e.getMessage());
+            return null;
+        }
+    }
+
     // Récupérer tous les étudiants
     public List<Etudiant> getAllEtudiants() {
         try (Session session = sessionFactory.openSession()) {

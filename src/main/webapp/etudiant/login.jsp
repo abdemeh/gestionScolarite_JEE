@@ -82,8 +82,8 @@
         <form action="loginController" method="post" class="login-form">
             <div class="form-container">
                 <div class="form-column">
-                    <label for="id_etudiant">Identifiant Étudiant :</label>
-                    <input type="text" id="id_etudiant" name="id_etudiant" required />
+                    <label for="email_etudiant">Email :</label>
+                    <input type="email" id="email_etudiant" name="email_etudiant" required />
 
                     <label for="mot_de_passe">Mot de passe :</label>
                     <input type="password" id="mot_de_passe" name="mot_de_passe" required />
@@ -96,15 +96,11 @@
     </div>
     <br>
     <!-- Error Message -->
-    <%
-        if (request.getAttribute("error") != null) {
-    %>
+    <% if (request.getAttribute("error") != null) { %>
     <div class="error-message">
         <%= request.getAttribute("error") %>
     </div>
-    <%
-        }
-    %>
+    <% } %>
     <br>
 </main>
 
