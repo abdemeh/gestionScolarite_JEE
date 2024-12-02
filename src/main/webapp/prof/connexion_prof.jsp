@@ -71,7 +71,7 @@
     </ul>
 </nav>
 
-<!-- Main Content -->
+<!-- springboot.Main Content -->
 <main>
     <header class="page-header">
         <h1>Connexion Professeur</h1>

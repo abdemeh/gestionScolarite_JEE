@@ -34,6 +34,9 @@ public class Utilisateur implements Serializable {
     private int idRole = 3; // Par défaut, attribuer le rôle "Étudiant"
 
     // Getters et Setters
+
+
+    @Column(name="id_utilisateur")
     public int getIdUtilisateur() {
         return idUtilisateur;
     }

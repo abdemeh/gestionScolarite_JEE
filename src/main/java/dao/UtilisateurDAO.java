@@ -13,7 +13,7 @@ public class UtilisateurDAO {
     static {
         try {
             // Initialisation de la SessionFactory avec configuration Hibernate
-            sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+            sessionFactory = new Configuration().configure("hibernate.cfg.invalide").buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Échec de la création de SessionFactory : " + ex);
             throw new ExceptionInInitializerError(ex);

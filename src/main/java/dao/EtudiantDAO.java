@@ -1,9 +1,6 @@
 package dao;
 
-import modele.Classe;
 import modele.Etudiant;
-import modele.Filiere;
-import modele.Utilisateur;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -16,7 +13,7 @@ public class EtudiantDAO {
 
     static {
         try {
-            sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+            sessionFactory = new Configuration().configure("hibernate.cfg.invalide").buildSessionFactory();
         } catch (Exception ex) {
             System.err.println("Erreur de configuration Hibernate : " + ex.getMessage());
             throw new ExceptionInInitializerError(ex);

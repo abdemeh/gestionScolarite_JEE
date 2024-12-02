@@ -18,7 +18,7 @@ public class NoteDAO {
 
     static {
         try {
-            sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+            sessionFactory = new Configuration().configure("hibernate.cfg.invalide").buildSessionFactory();
         } catch (Exception ex) {
             System.err.println("Erreur de configuration Hibernate : " + ex.getMessage());
             throw new ExceptionInInitializerError(ex);

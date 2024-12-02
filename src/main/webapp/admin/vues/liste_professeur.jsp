@@ -65,7 +65,7 @@
     </ul>
 </nav>
 
-<!-- Main Content -->
+<!-- springboot.Main Content -->
 <main>
     <header>
         <h1>Liste des Professeurs</h1>

@@ -48,7 +48,7 @@
     </ul>
 </nav>
 
-<!-- Main Content -->
+<!-- springboot.Main Content -->
 <main>
     <header class="page-header">
         <h1>Liste des Notes</h1>

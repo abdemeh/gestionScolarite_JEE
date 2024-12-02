@@ -11,7 +11,7 @@ public class HibernateUtil {
     static {
         try {
             sessionFactory = new Configuration()
-                    .configure("hibernate.cfg.xml") // Charge la configuration depuis le fichier hibernate.cfg.xml
+                    .configure("hibernate.cfg.invalide") // Charge la configuration depuis le fichier hibernate.cfg.invalide
 
                     .buildSessionFactory();
         } catch (Throwable e) {
