@@ -1,93 +1,80 @@
 
-# Gestion de Scolarité (J2EE Project)
+# Gestion de Scolarité (myCyScolarité - J2EE Project)
 
-This project is a web-based school management system developed using J2EE technologies. It allows students, teachers, and administrators to manage academic information efficiently. The application includes functionalities for managing students, courses, enrollments, grades, and authentication.
+**myCyScolarité** est une plateforme de gestion académique développée en Java JEE. Elle vise à fournir aux étudiants, professeurs, et administrateurs une solution complète pour gérer efficacement les inscriptions, les cours, les notes, et autres aspects liés à la scolarité. Ce projet exploite des technologies modernes et des outils avancés pour garantir une expérience utilisateur fluide et des fonctionnalités robustes.
 
-## Features
+## Fonctionnalités
 
-### Students
-- Registration and updating of student information (name, date of birth, contact details).
-- Viewing student lists and details.
-- Searching and filtering students.
+### **Visiteur**
+- Accès à la page d'accueil avec présentation de la plateforme.
+- Possibilité de se connecter en tant qu'étudiant, professeur, ou administrateur.
 
-### Teachers
-- Registration and updating of teacher information.
-- Assigning teachers to courses.
-- Viewing teacher details.
+### **Étudiant**
+- Consultation des **notes**, **résultats**, et **relevés de notes**.
+- Visualisation de l’**agenda des cours**.
+- Téléchargement de relevés de notes au format PDF.
 
-### Courses
-- Creating, modifying, and deleting courses.
-- Viewing course lists.
-- Assigning courses to teachers and students.
+### **Professeur**
+- Gestion des **notes des étudiants** : ajout, modification, et mise à jour.
+- Notifications par email aux étudiants pour informer des changements de notes.
 
-### Enrollment
-- Enrolling students in courses.
-- Viewing courses for each student.
+### **Administrateur**
+- **Gestion des utilisateurs** : inscription, réinscription, et modification des informations des étudiants et professeurs.
+- **Gestion des cours** : création, modification, suppression des cours.
+- Attribution des cours aux **professeurs** et aux **étudiants**.
+- Export des données sous format CSV (listes d’étudiants et de professeurs).
 
-### Grades
-- Teachers can input grades for students.
-- Viewing grades and calculating averages.
-- Students can view their results.
+## Architecture et Technologies
 
-### Authentication and Authorization
-- User roles: Student, Teacher, and Administrator.
-- Secure access to functionalities based on user roles.
+### **Architecture**
+Le projet suit l'architecture **MVC (Model-View-Controller)** pour une séparation claire des responsabilités :
+- **Model** : Entités JPA (ex. Étudiant, Professeur, Cours).
+- **View** : Pages JSP pour l’interface utilisateur.
+- **Controller** : Servlets pour la gestion des requêtes HTTP et de la logique métier.
 
-## Architecture
-
-The project follows the **MVC (Model-View-Controller)** architecture:
-
-- **Model**: Java classes representing entities (Student, Teacher, Course, etc.).
-- **View**: JSP pages for user interfaces.
-- **Controller**: Servlets to handle HTTP requests and business logic.
-
-### Technologies Used
-
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Java (J2EE)
-- **Frameworks**: Hibernate, Spring Boot (for advanced version)
-- **Database**: MySQL
-- **Server**: Apache Tomcat
+### **Technologies utilisées**
+- **Langages** : Java (J2EE), HTML5, CSS3, JavaScript.
+- **Frameworks** : Hibernate (ORM), Spring (Injection de dépendances et gestion).
+- **Serveur d'applications** : Apache Tomcat.
+- **Base de données** : MySQL.
+- **IDE** : IntelliJ IDEA.
+- **Contrôle de version** : Git.
 
 ## Installation
 
-1. Clone the repository:
+1. **Cloner le dépôt** :
    ```bash
    git clone https://github.com/abdemeh/gestionScolarite_JEE.git
    ```
-2. Set up the database:
-    - Import the schema and initial data from the `sql/schema.sql` file.
 
-3. Configure the project:
-    - Update `hibernate.cfg.xml` with your database credentials (root and password).
-    - Deploy the project on Apache Tomcat (v10.1.33).
+2. **Configurer la base de données** :
+   - Importer le fichier SQL disponible dans `sql/schema.sql` pour créer la base et les tables.
 
-4. Run the application:
-    - Access the web application at `http://localhost:8080/projetJEE`.
+3. **Configurer le projet** :
+   - Modifier le fichier `hibernate.cfg.xml` pour inclure les informations d'identification de votre base de données.
 
-## Contributors
+4. **Déployer l’application** :
+   - Copier le projet dans le répertoire de déploiement d’Apache Tomcat.
+   - Lancer le serveur Tomcat.
 
-- **@abdemeh**: Abdellatif
-- **@alifpdf**: Alif
-- **@Harruki2k**: Gloddy
-- **@mohamedLamine949**: Mohamed Lamine
-- **@spytek95**: Baptiste
+5. **Accéder à l’application** :
+   - Ouvrez le navigateur et accédez à `http://localhost:8080/projetJEE`.
 
-## Development Roadmap
+## Équipe de Développement
 
-### Phase 1: J2EE Implementation
-- Develop CRUD operations for students, teachers, and courses.
-- Implement authentication and authorization.
+- **Ali Sekaner Alif**
+- **El-Mahdaoui Abdellatif**
+- **Kone Mohamed Lamine**
+- **N’Gokoly Gloddy**
+- **Vautrin Baptiste**
 
-### Phase 2: JSP Interfaces
-- Build user-friendly interfaces for each role.
+## Perspectives d’Amélioration
 
-### Phase 3: Add Advanced Features
-- Implement email notifications.
-- Add reporting features for student performance.
+1. Ajouter des notifications en temps réel pour les utilisateurs.
+2. Intégrer un tableau de bord analytique pour les administrateurs.
+3. Migrer le backend vers Spring Boot pour améliorer la scalabilité.
+4. Implémenter un système de messagerie interne pour faciliter la communication entre les rôles.
 
-### Phase 4: Spring Boot Migration
-- Migrate the backend to use Spring Boot for improved scalability and maintainability.
+## Conclusion
 
-## Reporting Issues
-For issues or suggestions, please open a GitHub issue in this repository.
+La réalisation de ce projet a permis de consolider nos compétences techniques en **Programmation JEE** (Servlets, JSP, Hibernate, Spring), tout en renforçant notre capacité à collaborer et gérer efficacement un projet de grande envergure. Ce projet illustre l’importance de la planification et de l’utilisation d’outils modernes pour répondre aux besoins des utilisateurs.
